@@ -1,0 +1,390 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{E36091F0-EDDC-4865-B9FB-528FD3F3D219}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>WindSLIC</RootNamespace>
+    <ProjectName>WindSLIC_EFI</ProjectName>
+    <SccProjectName>
+    </SccProjectName>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <GenerateManifest>false</GenerateManifest>
+    <OutDir>.\</OutDir>
+    <TargetName>BOOTX64</TargetName>
+    <TargetExt>EFI</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>
+    </LinkIncremental>
+    <IncludePath>$(ProjectDir)include;$(ProjectDir)include\protocol;$(ProjectDir)include\em64t;$(IncludePath)</IncludePath>
+    <GenerateManifest>
+    </GenerateManifest>
+    <OutDir>$(ProjectDir)</OutDir>
+    <TargetName>BOOTX64</TargetName>
+    <TargetExt>.EFI</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>
+    </LinkIncremental>
+    <IncludePath>$(ProjectDir)include;$(ProjectDir)include\em64t;$(ProjectDir)include\protocol;$(IncludePath)</IncludePath>
+    <GenerateManifest>
+    </GenerateManifest>
+    <SourcePath>$(SourcePath)</SourcePath>
+    <PreBuildEventUseInBuild>false</PreBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+    <OutDir>$(ProjectDir)</OutDir>
+    <TargetName>BOOTX64</TargetName>
+    <TargetExt>.EFI</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;WINDSLIC_EFI_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>include\protocol;include;include\em64t;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <CompileAs>CompileAsC</CompileAs>
+      <OmitDefaultLibName>true</OmitDefaultLibName>
+      <ErrorReporting>None</ErrorReporting>
+    </ClCompile>
+    <Link>
+      <SubSystem>EFI Application</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+      <EntryPointSymbol>main</EntryPointSymbol>
+      <TargetMachine>MachineX64</TargetMachine>
+      <LinkErrorReporting>NoErrorReport</LinkErrorReporting>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>
+      </PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FloatingPointModel>
+      </FloatingPointModel>
+      <DisableLanguageExtensions>false</DisableLanguageExtensions>
+      <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
+      <CallingConvention>StdCall</CallingConvention>
+      <CompileAs>CompileAsC</CompileAs>
+      <OmitDefaultLibName>true</OmitDefaultLibName>
+      <StringPooling>true</StringPooling>
+      <ForceConformanceInForLoopScope>
+      </ForceConformanceInForLoopScope>
+      <ErrorReporting>
+      </ErrorReporting>
+    </ClCompile>
+    <Link>
+      <SubSystem>EFI Application</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+      <EntryPointSymbol>main</EntryPointSymbol>
+      <ManifestFile>
+      </ManifestFile>
+      <AllowIsolation>
+      </AllowIsolation>
+      <EnableUAC>
+      </EnableUAC>
+      <UACExecutionLevel>
+      </UACExecutionLevel>
+      <UACUIAccess>
+      </UACUIAccess>
+      <RandomizedBaseAddress>
+      </RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TurnOffAssemblyGeneration>
+      </TurnOffAssemblyGeneration>
+      <CLRImageType>
+      </CLRImageType>
+      <LinkErrorReporting>
+      </LinkErrorReporting>
+      <IgnoreEmbeddedIDL>
+      </IgnoreEmbeddedIDL>
+      <TypeLibraryResourceID>
+      </TypeLibraryResourceID>
+      <ProfileGuidedDatabase>
+      </ProfileGuidedDatabase>
+    </Link>
+    <PostBuildEvent>
+      <Command>MOVE /Y "$(TargetPath)" "$(TargetDir)BOOTX64.EFI"</Command>
+      <Message>move </Message>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;WINDSLIC_EFI_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <PreprocessorDefinitions>
+      </PreprocessorDefinitions>
+      <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
+      <ExceptionHandling>false</ExceptionHandling>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FloatingPointModel>
+      </FloatingPointModel>
+      <CallingConvention>
+      </CallingConvention>
+      <CompileAs>CompileAsC</CompileAs>
+      <OmitDefaultLibName>true</OmitDefaultLibName>
+      <ErrorReporting>
+      </ErrorReporting>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <MinimalRebuild>
+      </MinimalRebuild>
+      <ForceConformanceInForLoopScope>
+      </ForceConformanceInForLoopScope>
+      <StringPooling>true</StringPooling>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <ProgramDataBaseFileName>
+      </ProgramDataBaseFileName>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+    </ClCompile>
+    <Link>
+      <SubSystem>EFI Application</SubSystem>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <EnableCOMDATFolding>
+      </EnableCOMDATFolding>
+      <OptimizeReferences>
+      </OptimizeReferences>
+      <EntryPointSymbol>main</EntryPointSymbol>
+      <FixedBaseAddress>
+      </FixedBaseAddress>
+      <RandomizedBaseAddress>
+      </RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TurnOffAssemblyGeneration>
+      </TurnOffAssemblyGeneration>
+      <LinkErrorReporting>
+      </LinkErrorReporting>
+      <TypeLibraryResourceID>
+      </TypeLibraryResourceID>
+      <ProfileGuidedDatabase>
+      </ProfileGuidedDatabase>
+      <IgnoreEmbeddedIDL>
+      </IgnoreEmbeddedIDL>
+      <ProgramDatabaseFile>
+      </ProgramDatabaseFile>
+      <GenerateMapFile>
+      </GenerateMapFile>
+      <MapExports>
+      </MapExports>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+      <AllowIsolation>
+      </AllowIsolation>
+      <EnableUAC>
+      </EnableUAC>
+      <UACExecutionLevel>
+      </UACExecutionLevel>
+      <UACUIAccess>
+      </UACUIAccess>
+      <ManifestFile>
+      </ManifestFile>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
+      <SectionAlignment>32</SectionAlignment>
+    </Link>
+    <PostBuildEvent>
+      <Command>MOVE /Y "$(ProjectDir)BOOTX64.EFI" "$(ProjectDir)TEMP.EFI"
+"$(SolutionDir)bin\GenFw.exe" -e APPLICATION "$(ProjectDir)TEMP.EFI" -o "$(ProjectDir)BOOTX64.EFI"
+DEL "$(ProjectDir)TEMP.EFI"</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>
+      </Message>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>
+      </Message>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="acpi.h" />
+    <ClInclude Include="base.h" />
+    <ClInclude Include="global.h" />
+    <ClInclude Include="include\efi.h" />
+    <ClInclude Include="include\efiapi.h" />
+    <ClInclude Include="include\efiBis.h" />
+    <ClInclude Include="include\efiBusSpecificDriverOverride.h" />
+    <ClInclude Include="include\efiComponentName.h" />
+    <ClInclude Include="include\eficon.h" />
+    <ClInclude Include="include\efiCpu.h" />
+    <ClInclude Include="include\efidebug.h" />
+    <ClInclude Include="include\efiDebugPort.h" />
+    <ClInclude Include="include\efiDebugSupport.h" />
+    <ClInclude Include="include\efiDecompress.h" />
+    <ClInclude Include="include\efidef.h" />
+    <ClInclude Include="include\efidevp.h" />
+    <ClInclude Include="include\efiDriverBinding.h" />
+    <ClInclude Include="include\efiDriverConfiguration.h" />
+    <ClInclude Include="include\efiDriverDiagnostics.h" />
+    <ClInclude Include="include\efiEbc.h" />
+    <ClInclude Include="include\efierr.h" />
+    <ClInclude Include="include\efifs.h" />
+    <ClInclude Include="include\EfiGpt.h" />
+    <ClInclude Include="include\efiLegacyRegion.h" />
+    <ClInclude Include="include\efilib.h" />
+    <ClInclude Include="include\efinet.h" />
+    <ClInclude Include="include\efipart.h" />
+    <ClInclude Include="include\efiPciIo.h" />
+    <ClInclude Include="include\efiPciRootBridgeIo.h" />
+    <ClInclude Include="include\efiPlatformDriverOverride.h" />
+    <ClInclude Include="include\efiPointer.h" />
+    <ClInclude Include="include\efiprot.h" />
+    <ClInclude Include="include\efipxebc.h" />
+    <ClInclude Include="include\EfiRtLib.h" />
+    <ClInclude Include="include\efiScsiPassThru.h" />
+    <ClInclude Include="include\efiser.h" />
+    <ClInclude Include="include\efistdarg.h" />
+    <ClInclude Include="include\efiUgaDraw.h" />
+    <ClInclude Include="include\efiUgaIo.h" />
+    <ClInclude Include="include\EfiUi.h" />
+    <ClInclude Include="include\efiUsbHostController.h" />
+    <ClInclude Include="include\efiUsbIo.h" />
+    <ClInclude Include="include\efi_nii.h" />
+    <ClInclude Include="include\EFI_PXE.H" />
+    <ClInclude Include="include\em64t\efibind.h" />
+    <ClInclude Include="include\em64t\efilibplat.h" />
+    <ClInclude Include="include\em64t\pe.h" />
+    <ClInclude Include="include\LIbSmbios.h" />
+    <ClInclude Include="include\link.h" />
+    <ClInclude Include="include\pci22.h" />
+    <ClInclude Include="include\protocol\AdapterDebug.h" />
+    <ClInclude Include="include\protocol\eficonSplit.h" />
+    <ClInclude Include="include\protocol\efivar.h" />
+    <ClInclude Include="include\protocol\intload.h" />
+    <ClInclude Include="include\protocol\legacyboot.h" />
+    <ClInclude Include="include\protocol\VgaClass.h" />
+    <ClInclude Include="include\ROMLOAD.H" />
+    <ClInclude Include="include\usb.h" />
+    <ClInclude Include="libefi.h" />
+    <ClInclude Include="libmtrr.h" />
+    <ClInclude Include="WindSLIC_EFI.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dpath.cpp" />
+    <ClCompile Include="error.cpp" />
+    <ClCompile Include="event.cpp" />
+    <ClCompile Include="guid.cpp" />
+    <ClCompile Include="memset.cpp" />
+    <ClCompile Include="print.cpp" />
+    <ClCompile Include="math.cpp" />
+    <ClCompile Include="mem.cpp" />
+    <ClCompile Include="mtrr.cpp" />
+    <ClCompile Include="str.cpp" />
+    <ClCompile Include="WindSLIC_EFI.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,1 @@
+call Build.Release.WindSLIC_EFI.bat Debug Build

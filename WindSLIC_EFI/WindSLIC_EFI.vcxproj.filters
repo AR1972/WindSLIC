@@ -1,0 +1,258 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\libmtrr">
+      <UniqueIdentifier>{cb6a63c2-2d91-4f1e-b5a8-fbfd85a55d34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\libmtrr">
+      <UniqueIdentifier>{c22c53b6-2a43-4304-844e-6558a292aba4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\libefi">
+      <UniqueIdentifier>{765051b9-9007-4ad5-be05-b9ee0ffd88b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\libefi">
+      <UniqueIdentifier>{e8819e0e-3bfd-4c98-9eac-3bfd2fbeef09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include">
+      <UniqueIdentifier>{e0af0cc5-08e0-482c-aaae-59df734cbb68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\em64t">
+      <UniqueIdentifier>{e724b4b3-91bd-479d-afc8-24c1b3122d7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\protocol">
+      <UniqueIdentifier>{d3858693-f2cb-41df-ab4a-c140def2a562}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="acpi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="base.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="libefi.h">
+      <Filter>Header Files\libefi</Filter>
+    </ClInclude>
+    <ClInclude Include="libmtrr.h">
+      <Filter>Header Files\libmtrr</Filter>
+    </ClInclude>
+    <ClInclude Include="global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WindSLIC_EFI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\efi.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\efi_nii.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EFI_PXE.H">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\efiapi.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\efiBis.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\efiBusSpecificDriverOverride.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\efiComponentName.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\eficon.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\efidebug.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\efiDebugPort.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\efiDebugSupport.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\efiDecompress.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\efidef.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\efidevp.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\efiDriverBinding.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\efiDriverConfiguration.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\efiDriverDiagnostics.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\efiEbc.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\efierr.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\efifs.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EfiGpt.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\efilib.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\efinet.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\efipart.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\efiPciIo.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\efiPciRootBridgeIo.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\efiPlatformDriverOverride.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\efiPointer.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\efiprot.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\efipxebc.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EfiRtLib.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\efiScsiPassThru.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\efiser.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\efistdarg.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\efiUgaDraw.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\efiUgaIo.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EfiUi.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\efiUsbHostController.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\efiUsbIo.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\LIbSmbios.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\link.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\pci22.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ROMLOAD.H">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\usb.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\em64t\efibind.h">
+      <Filter>Include\em64t</Filter>
+    </ClInclude>
+    <ClInclude Include="include\em64t\efilibplat.h">
+      <Filter>Include\em64t</Filter>
+    </ClInclude>
+    <ClInclude Include="include\em64t\pe.h">
+      <Filter>Include\em64t</Filter>
+    </ClInclude>
+    <ClInclude Include="include\protocol\AdapterDebug.h">
+      <Filter>Include\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="include\protocol\eficonSplit.h">
+      <Filter>Include\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="include\protocol\efivar.h">
+      <Filter>Include\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="include\protocol\intload.h">
+      <Filter>Include\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="include\protocol\legacyboot.h">
+      <Filter>Include\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="include\protocol\VgaClass.h">
+      <Filter>Include\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="include\efiCpu.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\efiLegacyRegion.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="mtrr.cpp">
+      <Filter>Source Files\libmtrr</Filter>
+    </ClCompile>
+    <ClCompile Include="math.cpp">
+      <Filter>Source Files\libefi</Filter>
+    </ClCompile>
+    <ClCompile Include="guid.cpp">
+      <Filter>Source Files\libefi</Filter>
+    </ClCompile>
+    <ClCompile Include="mem.cpp">
+      <Filter>Source Files\libefi</Filter>
+    </ClCompile>
+    <ClCompile Include="str.cpp">
+      <Filter>Source Files\libefi</Filter>
+    </ClCompile>
+    <ClCompile Include="dpath.cpp">
+      <Filter>Source Files\libefi</Filter>
+    </ClCompile>
+    <ClCompile Include="error.cpp">
+      <Filter>Source Files\libefi</Filter>
+    </ClCompile>
+    <ClCompile Include="print.cpp">
+      <Filter>Source Files\libefi</Filter>
+    </ClCompile>
+    <ClCompile Include="event.cpp">
+      <Filter>Source Files\libefi</Filter>
+    </ClCompile>
+    <ClCompile Include="memset.cpp">
+      <Filter>Source Files\libefi</Filter>
+    </ClCompile>
+    <ClCompile Include="WindSLIC_EFI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

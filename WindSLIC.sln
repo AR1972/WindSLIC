@@ -1,0 +1,192 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Installer_EFI_gui", "Installer_EFI_gui\Installer_EFI_gui.vcxproj", "{B5DA05DB-7E6D-47B7-ABB8-A566CF83BF75}"
+	ProjectSection(ProjectDependencies) = postProject
+		{48D7D0A5-33E5-460C-B912-5FF512E0D448} = {48D7D0A5-33E5-460C-B912-5FF512E0D448}
+		{E36091F0-EDDC-4865-B9FB-528FD3F3D219} = {E36091F0-EDDC-4865-B9FB-528FD3F3D219}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WindSLIC_EFI", "WindSLIC_EFI\WindSLIC_EFI.vcxproj", "{E36091F0-EDDC-4865-B9FB-528FD3F3D219}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libinstaller", "libinstaller\libinstaller.vcxproj", "{48D7D0A5-33E5-460C-B912-5FF512E0D448}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Installer_EFI_cli", "installer_EFI_cli\installer_EFI_cli.vcxproj", "{EB6B9CE0-D6CB-4C3B-B565-92192153C697}"
+	ProjectSection(ProjectDependencies) = postProject
+		{48D7D0A5-33E5-460C-B912-5FF512E0D448} = {48D7D0A5-33E5-460C-B912-5FF512E0D448}
+		{E36091F0-EDDC-4865-B9FB-528FD3F3D219} = {E36091F0-EDDC-4865-B9FB-528FD3F3D219}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SLIC", "SLIC", "{75A339A4-B797-4F13-B405-0CF397B83C2D}"
+	ProjectSection(SolutionItems) = preProject
+		SLIC\ACER.BIN = SLIC\ACER.BIN
+		SLIC\acer.h = SLIC\acer.h
+		SLIC\ALIENWARE.BIN = SLIC\ALIENWARE.BIN
+		SLIC\ASUS.BIN = SLIC\ASUS.BIN
+		SLIC\dummy.bin = SLIC\dummy.bin
+		SLIC\dummy.h = SLIC\dummy.h
+		SLIC\GIGABYTE.BIN = SLIC\GIGABYTE.BIN
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{55BBB0F1-CC11-452F-8CD7-393F82592851}"
+	ProjectSection(SolutionItems) = preProject
+		Compatibilty.manifest = Compatibilty.manifest
+		ReadMe.md = ReadMe.md
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Installer_NTFS_cli", "Installer_NTFS_cli\Installer_NTFS_cli.vcxproj", "{7EBBB666-50FD-4491-B764-486BFA502D5E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WindSLIC_NTFS", "WindSLIC_NTFS", "{2358F2E7-E206-4A48-A211-459B764D9679}"
+	ProjectSection(SolutionItems) = preProject
+		WindSLIC_NTFS\config.ini = WindSLIC_NTFS\config.ini
+		WindSLIC_NTFS\datasection.inc = WindSLIC_NTFS\datasection.inc
+		WindSLIC_NTFS\OtherFunctions.inc = WindSLIC_NTFS\OtherFunctions.inc
+		WindSLIC_NTFS\WindSLIC.asm = WindSLIC_NTFS\WindSLIC.asm
+		WindSLIC_NTFS\WindSLIC_bootsect.asm = WindSLIC_NTFS\WindSLIC_bootsect.asm
+		WindSLIC_NTFS\ws_acpi.inc = WindSLIC_NTFS\ws_acpi.inc
+		WindSLIC_NTFS\ws_const.inc = WindSLIC_NTFS\ws_const.inc
+		WindSLIC_NTFS\ws_e820.inc = WindSLIC_NTFS\ws_e820.inc
+		WindSLIC_NTFS\ws_gdtrs.inc = WindSLIC_NTFS\ws_gdtrs.inc
+		WindSLIC_NTFS\ws_ihdlr.inc = WindSLIC_NTFS\ws_ihdlr.inc
+		WindSLIC_NTFS\ws_ivtmc.inc = WindSLIC_NTFS\ws_ivtmc.inc
+		WindSLIC_NTFS\ws_macro.inc = WindSLIC_NTFS\ws_macro.inc
+		WindSLIC_NTFS\ws_metam.inc = WindSLIC_NTFS\ws_metam.inc
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WindSLIC_bootmgr", "WindSLIC_bootmgr", "{64E1C975-4EF8-4F65-8444-BBA1DB17E9FE}"
+	ProjectSection(SolutionItems) = preProject
+		WindSLIC_bootmgr\config.ini = WindSLIC_bootmgr\config.ini
+		WindSLIC_bootmgr\get_boot.inc = WindSLIC_bootmgr\get_boot.inc
+		WindSLIC_bootmgr\OtherFunctions.inc = WindSLIC_bootmgr\OtherFunctions.inc
+		WindSLIC_bootmgr\recovery_helper.inc = WindSLIC_bootmgr\recovery_helper.inc
+		WindSLIC_bootmgr\return_boot.inc = WindSLIC_bootmgr\return_boot.inc
+		WindSLIC_bootmgr\WindSLIC_bootmgr.asm = WindSLIC_bootmgr\WindSLIC_bootmgr.asm
+		WindSLIC_bootmgr\ws_acpi.inc = WindSLIC_bootmgr\ws_acpi.inc
+		WindSLIC_bootmgr\ws_const.inc = WindSLIC_bootmgr\ws_const.inc
+		WindSLIC_bootmgr\ws_displ.inc = WindSLIC_bootmgr\ws_displ.inc
+		WindSLIC_bootmgr\ws_e820.inc = WindSLIC_bootmgr\ws_e820.inc
+		WindSLIC_bootmgr\ws_gdtrs.inc = WindSLIC_bootmgr\ws_gdtrs.inc
+		WindSLIC_bootmgr\ws_ihdlr.inc = WindSLIC_bootmgr\ws_ihdlr.inc
+		WindSLIC_bootmgr\ws_ivtmc.inc = WindSLIC_bootmgr\ws_ivtmc.inc
+		WindSLIC_bootmgr\ws_macro.inc = WindSLIC_bootmgr\ws_macro.inc
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Installer_bootmgr_gui", "Installer_bootmgr_gui\Installer_bootmgr_gui.csproj", "{A70CACB7-14A7-4CCF-81FF-63181B293DA7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bin", "bin", "{02D405FF-B856-48F7-99FB-96240848C657}"
+	ProjectSection(SolutionItems) = preProject
+		bin\FASM.EXE = bin\FASM.EXE
+		bin\GenFw.exe = bin\GenFw.exe
+		bin\gzip.exe = bin\gzip.exe
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MSDM", "MSDM", "{A1442248-D464-4100-A51C-CF6755F98A90}"
+	ProjectSection(SolutionItems) = preProject
+		MSDM\msdm.h = MSDM\msdm.h
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Installer_EFI_bat", "Installer_EFI_bat", "{DAF542E1-B997-4332-B62B-B88836F12B6E}"
+	ProjectSection(SolutionItems) = preProject
+		Installer_EFI_bat\install.bat = Installer_EFI_bat\install.bat
+		Installer_EFI_bat\uninstall.bat = Installer_EFI_bat\uninstall.bat
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B5DA05DB-7E6D-47B7-ABB8-A566CF83BF75}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{B5DA05DB-7E6D-47B7-ABB8-A566CF83BF75}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{B5DA05DB-7E6D-47B7-ABB8-A566CF83BF75}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B5DA05DB-7E6D-47B7-ABB8-A566CF83BF75}.Debug|Win32.Build.0 = Debug|Win32
+		{B5DA05DB-7E6D-47B7-ABB8-A566CF83BF75}.Debug|x64.ActiveCfg = Debug|Win32
+		{B5DA05DB-7E6D-47B7-ABB8-A566CF83BF75}.Debug|x86.ActiveCfg = Debug|Win32
+		{B5DA05DB-7E6D-47B7-ABB8-A566CF83BF75}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{B5DA05DB-7E6D-47B7-ABB8-A566CF83BF75}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{B5DA05DB-7E6D-47B7-ABB8-A566CF83BF75}.Release|Win32.ActiveCfg = Release|Win32
+		{B5DA05DB-7E6D-47B7-ABB8-A566CF83BF75}.Release|Win32.Build.0 = Release|Win32
+		{B5DA05DB-7E6D-47B7-ABB8-A566CF83BF75}.Release|x64.ActiveCfg = Release|Win32
+		{B5DA05DB-7E6D-47B7-ABB8-A566CF83BF75}.Release|x86.ActiveCfg = Release|Win32
+		{E36091F0-EDDC-4865-B9FB-528FD3F3D219}.Debug|Mixed Platforms.ActiveCfg = Debug|x64
+		{E36091F0-EDDC-4865-B9FB-528FD3F3D219}.Debug|Mixed Platforms.Build.0 = Debug|x64
+		{E36091F0-EDDC-4865-B9FB-528FD3F3D219}.Debug|Win32.ActiveCfg = Debug|x64
+		{E36091F0-EDDC-4865-B9FB-528FD3F3D219}.Debug|Win32.Build.0 = Debug|x64
+		{E36091F0-EDDC-4865-B9FB-528FD3F3D219}.Debug|x64.ActiveCfg = Debug|x64
+		{E36091F0-EDDC-4865-B9FB-528FD3F3D219}.Debug|x64.Build.0 = Debug|x64
+		{E36091F0-EDDC-4865-B9FB-528FD3F3D219}.Debug|x86.ActiveCfg = Debug|x64
+		{E36091F0-EDDC-4865-B9FB-528FD3F3D219}.Release|Mixed Platforms.ActiveCfg = Release|x64
+		{E36091F0-EDDC-4865-B9FB-528FD3F3D219}.Release|Mixed Platforms.Build.0 = Release|x64
+		{E36091F0-EDDC-4865-B9FB-528FD3F3D219}.Release|Win32.ActiveCfg = Release|x64
+		{E36091F0-EDDC-4865-B9FB-528FD3F3D219}.Release|Win32.Build.0 = Release|x64
+		{E36091F0-EDDC-4865-B9FB-528FD3F3D219}.Release|x64.ActiveCfg = Release|x64
+		{E36091F0-EDDC-4865-B9FB-528FD3F3D219}.Release|x64.Build.0 = Release|x64
+		{E36091F0-EDDC-4865-B9FB-528FD3F3D219}.Release|x86.ActiveCfg = Release|x64
+		{48D7D0A5-33E5-460C-B912-5FF512E0D448}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{48D7D0A5-33E5-460C-B912-5FF512E0D448}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{48D7D0A5-33E5-460C-B912-5FF512E0D448}.Debug|Win32.ActiveCfg = Debug|Win32
+		{48D7D0A5-33E5-460C-B912-5FF512E0D448}.Debug|Win32.Build.0 = Debug|Win32
+		{48D7D0A5-33E5-460C-B912-5FF512E0D448}.Debug|x64.ActiveCfg = Debug|Win32
+		{48D7D0A5-33E5-460C-B912-5FF512E0D448}.Debug|x86.ActiveCfg = Debug|Win32
+		{48D7D0A5-33E5-460C-B912-5FF512E0D448}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{48D7D0A5-33E5-460C-B912-5FF512E0D448}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{48D7D0A5-33E5-460C-B912-5FF512E0D448}.Release|Win32.ActiveCfg = Release|Win32
+		{48D7D0A5-33E5-460C-B912-5FF512E0D448}.Release|Win32.Build.0 = Release|Win32
+		{48D7D0A5-33E5-460C-B912-5FF512E0D448}.Release|x64.ActiveCfg = Release|Win32
+		{48D7D0A5-33E5-460C-B912-5FF512E0D448}.Release|x86.ActiveCfg = Release|Win32
+		{EB6B9CE0-D6CB-4C3B-B565-92192153C697}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{EB6B9CE0-D6CB-4C3B-B565-92192153C697}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{EB6B9CE0-D6CB-4C3B-B565-92192153C697}.Debug|Win32.ActiveCfg = Debug|Win32
+		{EB6B9CE0-D6CB-4C3B-B565-92192153C697}.Debug|Win32.Build.0 = Debug|Win32
+		{EB6B9CE0-D6CB-4C3B-B565-92192153C697}.Debug|x64.ActiveCfg = Debug|Win32
+		{EB6B9CE0-D6CB-4C3B-B565-92192153C697}.Debug|x86.ActiveCfg = Debug|Win32
+		{EB6B9CE0-D6CB-4C3B-B565-92192153C697}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{EB6B9CE0-D6CB-4C3B-B565-92192153C697}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{EB6B9CE0-D6CB-4C3B-B565-92192153C697}.Release|Win32.ActiveCfg = Release|Win32
+		{EB6B9CE0-D6CB-4C3B-B565-92192153C697}.Release|Win32.Build.0 = Release|Win32
+		{EB6B9CE0-D6CB-4C3B-B565-92192153C697}.Release|x64.ActiveCfg = Release|Win32
+		{EB6B9CE0-D6CB-4C3B-B565-92192153C697}.Release|x86.ActiveCfg = Release|Win32
+		{7EBBB666-50FD-4491-B764-486BFA502D5E}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{7EBBB666-50FD-4491-B764-486BFA502D5E}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{7EBBB666-50FD-4491-B764-486BFA502D5E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7EBBB666-50FD-4491-B764-486BFA502D5E}.Debug|Win32.Build.0 = Debug|Win32
+		{7EBBB666-50FD-4491-B764-486BFA502D5E}.Debug|x64.ActiveCfg = Debug|Win32
+		{7EBBB666-50FD-4491-B764-486BFA502D5E}.Debug|x86.ActiveCfg = Debug|Win32
+		{7EBBB666-50FD-4491-B764-486BFA502D5E}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{7EBBB666-50FD-4491-B764-486BFA502D5E}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{7EBBB666-50FD-4491-B764-486BFA502D5E}.Release|Win32.ActiveCfg = Release|Win32
+		{7EBBB666-50FD-4491-B764-486BFA502D5E}.Release|Win32.Build.0 = Release|Win32
+		{7EBBB666-50FD-4491-B764-486BFA502D5E}.Release|x64.ActiveCfg = Release|Win32
+		{7EBBB666-50FD-4491-B764-486BFA502D5E}.Release|x86.ActiveCfg = Release|Win32
+		{A70CACB7-14A7-4CCF-81FF-63181B293DA7}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{A70CACB7-14A7-4CCF-81FF-63181B293DA7}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{A70CACB7-14A7-4CCF-81FF-63181B293DA7}.Debug|Win32.ActiveCfg = Debug|x86
+		{A70CACB7-14A7-4CCF-81FF-63181B293DA7}.Debug|x64.ActiveCfg = Debug|x86
+		{A70CACB7-14A7-4CCF-81FF-63181B293DA7}.Debug|x86.ActiveCfg = Debug|x86
+		{A70CACB7-14A7-4CCF-81FF-63181B293DA7}.Debug|x86.Build.0 = Debug|x86
+		{A70CACB7-14A7-4CCF-81FF-63181B293DA7}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{A70CACB7-14A7-4CCF-81FF-63181B293DA7}.Release|Mixed Platforms.Build.0 = Release|x86
+		{A70CACB7-14A7-4CCF-81FF-63181B293DA7}.Release|Win32.ActiveCfg = Release|x86
+		{A70CACB7-14A7-4CCF-81FF-63181B293DA7}.Release|x64.ActiveCfg = Release|x86
+		{A70CACB7-14A7-4CCF-81FF-63181B293DA7}.Release|x86.ActiveCfg = Release|x86
+		{A70CACB7-14A7-4CCF-81FF-63181B293DA7}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{75A339A4-B797-4F13-B405-0CF397B83C2D} = {55BBB0F1-CC11-452F-8CD7-393F82592851}
+		{2358F2E7-E206-4A48-A211-459B764D9679} = {55BBB0F1-CC11-452F-8CD7-393F82592851}
+		{64E1C975-4EF8-4F65-8444-BBA1DB17E9FE} = {55BBB0F1-CC11-452F-8CD7-393F82592851}
+		{02D405FF-B856-48F7-99FB-96240848C657} = {55BBB0F1-CC11-452F-8CD7-393F82592851}
+		{A1442248-D464-4100-A51C-CF6755F98A90} = {55BBB0F1-CC11-452F-8CD7-393F82592851}
+		{DAF542E1-B997-4332-B62B-B88836F12B6E} = {55BBB0F1-CC11-452F-8CD7-393F82592851}
+	EndGlobalSection
+EndGlobal

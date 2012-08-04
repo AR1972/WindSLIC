@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Installer_NTFS_cli", "Installer_NTFS_cli.vcxproj", "{7EBBB666-50FD-4491-B764-486BFA502D5E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WindSLIC", "WindSLIC", "{EC67C444-AB93-470B-8DDE-773FEE215113}"
+	ProjectSection(SolutionItems) = preProject
+		WindSLIC\datasection.inc = WindSLIC\datasection.inc
+		WindSLIC\OtherFunctions.inc = WindSLIC\OtherFunctions.inc
+		WindSLIC\WindSLIC.asm = WindSLIC\WindSLIC.asm
+		WindSLIC\WindSLIC_bootsect.asm = WindSLIC\WindSLIC_bootsect.asm
+		WindSLIC\ws_acpi.inc = WindSLIC\ws_acpi.inc
+		WindSLIC\ws_const.inc = WindSLIC\ws_const.inc
+		WindSLIC\ws_e820.inc = WindSLIC\ws_e820.inc
+		WindSLIC\ws_gdtrs.inc = WindSLIC\ws_gdtrs.inc
+		WindSLIC\ws_ihdlr.inc = WindSLIC\ws_ihdlr.inc
+		WindSLIC\ws_ivtmc.inc = WindSLIC\ws_ivtmc.inc
+		WindSLIC\ws_macro.inc = WindSLIC\ws_macro.inc
+		WindSLIC\ws_metam.inc = WindSLIC\ws_metam.inc
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{52370AB2-6DBB-4A85-B346-EA367DFA4127}"
+	ProjectSection(SolutionItems) = preProject
+		Compatibilty.manifest = Compatibilty.manifest
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SLIC", "SLIC", "{8D536C1B-17A6-4CC9-B805-F50F6FDC0D90}"
+	ProjectSection(SolutionItems) = preProject
+		SLIC\ACER.BIN = SLIC\ACER.BIN
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 2
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://code:8080/tfs/root
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Installer_NTFS_cli.vcxproj
+		SccLocalPath1 = .
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7EBBB666-50FD-4491-B764-486BFA502D5E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7EBBB666-50FD-4491-B764-486BFA502D5E}.Debug|Win32.Build.0 = Debug|Win32
+		{7EBBB666-50FD-4491-B764-486BFA502D5E}.Release|Win32.ActiveCfg = Release|Win32
+		{7EBBB666-50FD-4491-B764-486BFA502D5E}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EC67C444-AB93-470B-8DDE-773FEE215113} = {52370AB2-6DBB-4A85-B346-EA367DFA4127}
+		{8D536C1B-17A6-4CC9-B805-F50F6FDC0D90} = {52370AB2-6DBB-4A85-B346-EA367DFA4127}
+	EndGlobalSection
+EndGlobal
