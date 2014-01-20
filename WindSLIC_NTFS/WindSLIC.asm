@@ -52,8 +52,8 @@ RESVD_DATA_SEG = 0x8000 	; create a temporary data segment at 0x8000
 ;-----------------------------------------------------------------------
 ; -v-  Interrupt Vector Table Stolen Vectors Configuration
 ;-----------------------------------------------------------------------
-WDSC_MARKER = 'x'
-WDSC_IDENTS = 'z'
+;WDSC_MARKER = 'x'
+;WDSC_IDENTS = 'z'
 ;-----------------------------------------------------------------------
 ENTRY_FIRST_IVT_ENTRY	=	0x90	; For IVT, Set this to 0x90 (First DOS-NonUsed IVT Entry is 0x90)
 ;-----------------------------------------------------------------------
@@ -179,12 +179,7 @@ ACPI_RESERVE_SPACE_HIGH = ((ACPI_RESERVE_SPACE - (ACPI_RESERVE_SPACE mod 0xfffff
 ACPI_RESERVE_SPACE_LOW = (ACPI_RESERVE_SPACE and 0xffffffff)
 ;
 start:
-
-mov ah,01h			 ; recovery
-int 16h
-cmp ah, 3Fh			 ; test for F5 key
-jnz INIT
-retn
+	jmp BEV
 ;
 ;-----------------------------------------------------------------------
 ; -v-  GDTR Table Stuff
@@ -192,40 +187,6 @@ retn
 include 'ws_gdtrs.inc'
 ;-----------------------------------------------------------------------
 ; -^-  GDTR Table Stuff
-;-----------------------------------------------------------------------
-;
-;-----------------------------------------------------------------------
-INIT:				
-;-----------------------------------------------------------------------
-;startp  "INIT:"
-;-----------------------------------------------------------------------
-;
-	pushad
-
-	cmp_ivt_entry_against ENTRY_HOLD_WDSC_MARKER,WDSC_MARKER    ; check if another WDSC is already loaded
-	jne INIT.first_instance
-
-	cmp_ivt_entry_against ENTRY_HOLD_WDSC_IDENTS,WDSC_IDENTS   ; check if another WDSC is already loaded
-	jae INIT.failure_Duplicate_Detected
-
-INIT.first_instance:
-
-	set_ivt_entry_from_literal ENTRY_HOLD_WDSC_MARKER, WDSC_MARKER	    ; Set a marker to prevent double-execution
-	set_ivt_entry_from_literal ENTRY_HOLD_WDSC_IDENTS, WDSC_IDENTS	    ; Set a marker to prevent double-execution
-
-	jmp INIT.success	; if we got this far, assume INIT succeeded.
-
-INIT.failure_Duplicate_Detected:
-	popad
-	retn
-INIT.failure_cleanup:
-INIT.failure_cleanup_quick:
-INIT.success:
-INIT.done:
-	popad
-;
-;-----------------------------------------------------------------------
-;endofp  "INIT:"
 ;-----------------------------------------------------------------------
 ;
 BEV:				
@@ -236,20 +197,7 @@ BEV:
 	pushfd
 	multipush	ds,es,fs,gs,ss
 	pushad
-	;Setup a New Stack to keep old one intact
-	;setup_new_stack RESVD_STACK_SEG,RESVD_STACK_OFS
-
 	call	get_highest_free_e820_line			; Get the highest free e820 line to
-								; from which to reserve memory
-;---------------------------------------
-;-v- BEV_core_only:
-; NOTE: during this part, unreal mode will be active. 
-;     : Do not load DS or ES, as they will lose unreal capability.
-;     : Instead, use FS and GS for segment selectors when needed.
-;---------------------------------------
-;
-BEV.core_only:
-
 	pushad
 	multipush	ds,es
 	xor	ecx,ecx
@@ -262,40 +210,13 @@ BEV.core_only:
 	call	setRealMode		; Return to 'Regular' Real Mode (Disable a20)
 	multipop	ds,es
 	popad
-;
-;---------------------------------------
-;-^- BEV.core_only:
-;---------------------------------------
-
-	; Then, if the override is enabled,
-	;  replace the int15h handler with our own.
-	;
-	; This will allow us to actually make the reservations
-	;  we calculated above.
-
 	cmp_ivt_entry_against	ENTRY_HOLD_IH_ENABLE,0x01	; If override is not enabled, 
 	jne	BEV.skip_replace_ih_call			; Skip over the handler hooking step.
-
-
 	call	replace_handler__int15h 		; Replace the int-hdlr for i15h
-	jmp	BEV.finish
-
-BEV.skip_replace_ih_call:
-
-	jmp BEV.finish
-
-BEV.finish:
-
-	;teardown_new_stack      ; teardown the new stack created for the BEV
-
-BEV.skip_init:
-
+BEV.skip_replace_ih_call:	
 	popad
 	multipop  ds,es,fs,gs,ss
 	popfd
-
-BEV.done:
-
 	sti			; enable interrupts (just in case)
 	retn
 ;
@@ -327,24 +248,24 @@ main:
 	mov esi, [esi+RSDP_ofs_RSDTAddress]		;| move RSDT address to ESI
 	mov ecx, [esi+RSDT_ofs_Length]			;| move RSDT length to ECX 
 	sub ecx, 24h							;| subtract RSDT header
-	shr	ecx, 2h								;| divide by 4
+	shr	ecx, 2h 							;| divide by 4
 	add esi, 24h							;| move ESI past RSDT header
 findSLICloop:								;|
 	mov edx, [esi]							;| move address of first entry to EDX
-	cmp dword [edx], 'SLIC'					;| compair to SLIC
+	cmp dword [edx], 'SLIC' 				;| compair to SLIC
 	jz	findSLICfound						;| 
 	add esi,4h								;| add 4 to RSDT address
 	loop findSLICloop						;| loop
 	jmp findSLICdone						;| loop has quit SLIC not found 
 findSLICfound:								;| SLIC found check version
-	mov al,[edx+8h]							;| move SLIC version to AL
+	mov al,[edx+8h] 						;| move SLIC version to AL
 	cmp al, 1								;| compair SLIC version to 01
 	jnz findSLICdone						;| if not version 01 continue
 	set_ivt_entry_from_literal	ENTRY_HOLD_IH_ENABLE,0x00 ;| if version 01 DO NOT install replacement int handler
-	pop esi									;| restore RSDP address to ESI from stack
+	pop esi 								;| restore RSDP address to ESI from stack
 	jmp main.done							;| SLIC version 01 found quit
 findSLICdone:								;|
-	pop esi									;| restore RSDP address to ESI from stack
+	pop esi 								;| restore RSDP address to ESI from stack
 	
 ;------------------------------------------------------------------------------
 ;end check SLIC version
@@ -368,10 +289,6 @@ main.prepare_resvd_spaces:
 	call	cleanup_reserved
 	pop	ecx
 	pop	edi
-
-	; test RSDP area is writable, try to make it writable
-	call	 rsdp_writable
-	jc	 main.skip_move_rsdp
 
 	; Move RSDP (to EBDA), RSDT (to HMEM), and XSDT (to HMEM)
 	multipush	edi,esi
@@ -429,12 +346,8 @@ main.skip_patch_oemid:
 	call   URM_patch_rsdt_for_slic
 	call   URM_patch_xsdt_for_slic
 	call   URM_chksumfix_rsdp_input_esi
-	xor	al, al
-	call	SetReadWriteMask
-	jmp    main.done
 
 main.surrender_1:
-
 main.done:
 
 	multipop	eax,edi

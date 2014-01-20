@@ -72,43 +72,6 @@ cleanup_reserved:
 ;----------------------------------------------------------------------------------------------------
 ;||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 ;====================================================================================================
-rsdp_writable:
-;====================================================================================================
-
-       push	edi
-       push	esi
-       push	ecx
-
-       xor     ecx,ecx
-       mov     edi,[esi]
-       cmp     edi,20445352h
-       jne     rsdp_not_writable
-       mov     al,1
-       call    SetReadWriteMask
-       mov     byte [esi],byte 00h
-       cmp     byte [esi],byte 00h
-       je      rsdp_is_writable
-
-rsdp_not_writable:
-
-       clc
-       jmp     rdsp_writable_done
-
-rsdp_is_writable:
-
-       mov    [esi],edi
-       stc
-
-rdsp_writable_done:
-
-	pop	ecx
-	pop	esi
-	pop	edi
-	retn
-
-;----------------------------------------------------------------------------------------------------
-;||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-;====================================================================================================
 URM_get_ebda_end_into_edx:
 ;====================================================================================================
 
@@ -465,70 +428,6 @@ decrypt_done:
 	pop	ecx
 	pop	esi
 	pop	edi
-	retn
-
-;----------------------------------------------------------------------------------------------------
-;||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-;----------------------------------------------------------------------------------------------------
-SetReadWriteMask:
-;----------------------------------------------------------------------------------------------------
-
-	pushad
-	cmp	byte [cs:ConfigByte], 1
-	je	SetReadWriteMaskDone
-	sti
-	push	ax
-	mov	ax, 0B101h
-	int	1Ah
-	cmp	edx, 'PCI '
-	jne	Unsupported
-	xor	ecx,ecx
-	mov	ax, 0B10Ah
-	mov	bx, 0
-	mov	di, 0
-	int	1Ah
-	cmp	cx, 8086h
-	jne	Unsupported
-	shr	ecx,10h
-	cmp	cx, 7190h			 ; white/blaklist device id's
-	je	OldIntel
-	shr	ecx, 0Ch
-	cmp	cl, 1
-	je	OldIntel
-	cmp	cl, 2
-	jg	Unsupported
-NewIntel:
-	mov	di, 90h
-	jmp	GetConfigByte
-OldIntel:
-	mov	di, 59h
-GetConfigByte:
-	mov	ax, 0B108h
-	xor	ecx, ecx
-	mov	bx, 0
-	int	1Ah
-	pop	ax
-	cmp	al, 1
-	je	ReadWrite
-ReadOnly:
-	cmp	byte [cs:ConfigByte], 10h
-	jb	SetReadWriteMaskDone
-	cmp	byte [cs:ConfigByte], 30h
-	je	SetReadWriteMaskDone
-	jmp	SetConfigByte
-ReadWrite:
-	mov    byte [cs:ConfigByte], cl
-	cmp	cl, 30h
-	je	SetReadWriteMaskDone
-	mov	cl, 30h
-SetConfigByte:
-	mov	ax, 0B10Bh
-	int	1Ah
-	jmp SetReadWriteMaskDone
-Unsupported:
-	pop ax
-SetReadWriteMaskDone:
-	popad
 	retn
 
 ;----------------------------------------------------------------------------------------------------
