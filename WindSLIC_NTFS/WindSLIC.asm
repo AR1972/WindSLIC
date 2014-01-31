@@ -258,7 +258,7 @@ findSLICloop:								;|
 	loop findSLICloop						;| loop
 	jmp findSLICdone						;| loop has quit SLIC not found 
 findSLICfound:								;| SLIC found check version
-	mov al,[edx+8h] 						;| move SLIC version to AL
+	mov al,[edx+0E2h] 						;| move SLIC version to AL
 	cmp al, 1								;| compair SLIC version to 01
 	jnz findSLICdone						;| if not version 01 continue
 	set_ivt_entry_from_literal	ENTRY_HOLD_IH_ENABLE,0x00 ;| if version 01 DO NOT install replacement int handler
