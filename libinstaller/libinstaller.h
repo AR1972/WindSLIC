@@ -68,10 +68,13 @@ BOOL
 	EfiDeleteBootEntry (ULONG EntryId);
 //
 BOOL
-	EfiDeleteBootEntry (wchar_t EntryName[]);
+	EfiDeleteBootEntry (wchar_t* EntryName);
 //
 UINT
 	EfiDeleteWindSLICEntries(VOID);
+//
+UINT
+	EfiDeleteDescription(wchar_t* Description, int DescriptionLenght);
 //
 BOOL
 	EfiBootOrderDelete(ULONG EntryId);

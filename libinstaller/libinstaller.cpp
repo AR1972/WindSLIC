@@ -379,6 +379,62 @@ UINT
 	return RetVal;
 }
 //
+UINT
+	EfiDeleteDescription(wchar_t* Description, int DescriptionLenght)
+{
+	ULONG BufferLength = 16;
+	UCHAR* Buffer = new UCHAR[BufferLength];
+	memset(Buffer, 0, BufferLength);
+	wchar_t EntryName[24] = {};
+	USHORT EntryId;
+	UINT InBootOrderLength = 1;
+	USHORT* InBootOrder = new USHORT[InBootOrderLength];
+	InBootOrder[0] = 0;
+	UINT RetVal = 0;
+	UINT RetLen = 0;
+	//
+	while ((RetLen = GetFirmwareEnvironmentVariable(TEXT("BootOrder"), EfiGuid, InBootOrder, InBootOrderLength * sizeof(USHORT))) == 0) {
+		if (GetLastError() == ERROR_ENVVAR_NOT_FOUND) {
+			InBootOrderLength = 0;
+			break;
+		}
+		InBootOrderLength++;
+		delete[] InBootOrder;
+		InBootOrder = new USHORT[InBootOrderLength];
+	}
+	if (InBootOrderLength) {
+		for (UINT i = 0; i <= InBootOrderLength - 1; i++) {
+			BufferLength = 16;
+			delete[] Buffer;
+			Buffer = new UCHAR[BufferLength];
+			memset(Buffer, 0, BufferLength);
+			wsprintf(EntryName, L"Boot%04d", InBootOrder[i]);;
+			EntryId = InBootOrder[i];
+			while ((RetLen = GetFirmwareEnvironmentVariable(EntryName, EfiGuid, Buffer, BufferLength)) == 0) {
+				if (GetLastError() == ERROR_ENVVAR_NOT_FOUND) {
+					break;
+				}
+				BufferLength += 16;
+				delete[] Buffer;
+				Buffer = new UCHAR[BufferLength];
+				memset(Buffer, 0, BufferLength);
+			}
+			if (RetLen >= DescriptionLenght) {
+				for (UINT j = 0; j < (RetLen - DescriptionLenght - 1); j++) {
+					if (memcmp((Buffer + j), Description, DescriptionLenght - 1) == 0) {
+						EfiDeleteBootEntry(EntryName);
+						EfiBootOrderDelete(EntryId);
+						RetVal++;
+					}
+				}
+			}
+		}
+	}
+	delete[] InBootOrder;
+	delete[] Buffer;
+	return RetVal;
+}
+//
 BOOL
 	EfiDeleteBootEntry (ULONG EntryId)
 {
@@ -388,7 +444,7 @@ BOOL
 }
 //
 BOOL
-	EfiDeleteBootEntry (wchar_t EntryName[])
+	EfiDeleteBootEntry (wchar_t* EntryName)
 {
 	return SetFirmwareEnvironmentVariable(EntryName, EfiGuid, NULL, NULL);
 }

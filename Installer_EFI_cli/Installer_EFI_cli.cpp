@@ -16,6 +16,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	UCHAR Key[16] = {};
 	wchar_t EntryName[24] = {};
 	wchar_t Description[] = L"WindSLIC\0";
+	wchar_t Injector[] = L"Injector\0";
 	wchar_t BootFile[] = L"\\BOOTX64.EFI\0";
 	ULONG BootEntryLength = 0;
 	HRSRC hResource;
@@ -77,7 +78,8 @@ int _tmain(int argc, _TCHAR* argv[])
 		}
 		if (argv[1] != NULL && wcscmp(argv[1], L"/u\0") == 0) {
 			wprintf_s(L"uninstalling WindSLIC\n");
-			EfiDeleteWindSLICEntries();
+			EfiDeleteDescription(Description, sizeof(Description) - 1);
+			EfiDeleteDescription(Injector, sizeof(Injector) - 1);
 			EfiBootmgrAddFirst();
 			goto exit;
 		}
@@ -174,12 +176,14 @@ int _tmain(int argc, _TCHAR* argv[])
 		}
 		else {
 			wprintf_s(L"create directory failed: %X\n", GetLastError());
-			EfiDeleteWindSLICEntries();
+			EfiDeleteDescription(Description, sizeof(Description) - 1);
+			EfiDeleteDescription(Injector, sizeof(Injector) - 1);
 			EfiBootmgrAddFirst();
 			goto exit;
 		}
 		// remove any WindSLIC boot entries.
-		EfiDeleteWindSLICEntries();
+		EfiDeleteDescription(Description, sizeof(Description) - 1);
+		EfiDeleteDescription(Injector, sizeof(Injector) - 1);
 		EfiBootmgrAddFirst();
 		// add WindSLIC boot entry.
 		EntryId = EfiFreeBootEntry();

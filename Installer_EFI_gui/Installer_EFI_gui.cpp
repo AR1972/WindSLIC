@@ -229,6 +229,7 @@ int
 	UCHAR Key[16] = {};
 	wchar_t EntryName[24] = {};
 	wchar_t Description[] = L"WindSLIC\0";
+	wchar_t Injector[] = L"Injector\0";
 	wchar_t BootFile[] = L"\\BOOTX64.EFI\0";
 	wchar_t ResourceType[] = L"RAW\0";
 	ULONG BootEntryLength = 0;
@@ -392,12 +393,14 @@ int
 			delete[] SlicBuffer;
 		}
 		else {
-			EfiDeleteWindSLICEntries();
+			EfiDeleteDescription(Description, sizeof(Description) - 1);
+			EfiDeleteDescription(Injector, sizeof(Injector) - 1);
 			EfiBootmgrAddFirst();
 			goto exit;
 		}
 		// remove any WindSLIC boot entries.
-		EfiDeleteWindSLICEntries();
+		EfiDeleteDescription(Description, sizeof(Description) - 1);
+		EfiDeleteDescription(Injector, sizeof(Injector) - 1);
 		EfiBootmgrAddFirst();
 		// add WindSLIC boot entry.
 		EntryId = EfiFreeBootEntry();
@@ -453,6 +456,8 @@ int
 	wchar_t* DosDevice = NULL;
 	wchar_t* Directory = NULL;
 	wchar_t* OldDirectory = NULL;
+	wchar_t Description[] = L"WindSLIC\0";
+	wchar_t Injector[] = L"Injector\0";
 	try {
 		DosDevice = new wchar_t[8];
 		Directory = new wchar_t[MAX_PATH];
@@ -473,7 +478,8 @@ int
 			Sleep(100);
 		}
 		AcquirePrivilage();
-		EfiDeleteWindSLICEntries();
+		EfiDeleteDescription(Description, sizeof(Description) - 1);
+		EfiDeleteDescription(Injector, sizeof(Injector) - 1);
 		EfiBootmgrAddFirst();
 		UnmountEsp(DosDevice);
 		delete[] UId;
