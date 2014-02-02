@@ -200,7 +200,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			SendMessage( hWndButton2, WM_SETFONT, (WPARAM)hFont, TRUE );
 			SendMessage( hWndCombobox, WM_SETFONT, (WPARAM)hFont, TRUE );
 			PopulateCombobox(hWndCombobox);
-			if (!isEfi() || !Test()) {
+			if (!isEfi() || !Test() || !InitLib(TRUE)) {
 				EnableWindow(hWndButton1, FALSE);
 				EnableWindow(hWndButton2, FALSE);
 				EnableWindow(hWndCombobox, FALSE);
@@ -259,6 +259,9 @@ int
 		FilePath = new wchar_t[MAX_PATH];
 		BootEntryPath = new wchar_t[MAX_PATH];
 		UId = new wchar_t[sizeof(GUID) * 2 + 4]();
+		if(!InitLib(TRUE)) {
+			throw bad_alloc();
+		}
 		GetFreeLetter (DosDevice);
 		if(UniqueId(&UId) == ERROR_OUTOFMEMORY) {
 			throw bad_alloc();
@@ -427,6 +430,7 @@ exit:
 		delete[] OldDirectory;
 		delete[] DosDevice;
 		ThreadFinished();
+		InitLib(FALSE);
 		return ret;
 	}
 	catch (bad_alloc) {
@@ -437,6 +441,7 @@ exit:
 		if(NULL != OldDirectory) {delete[] OldDirectory;}
 		if(NULL != DosDevice) {delete[] DosDevice;}
 		ThreadFinished();
+		InitLib(FALSE);
 		return ERROR_OUTOFMEMORY;
 	}
 }
@@ -453,6 +458,9 @@ int
 		Directory = new wchar_t[MAX_PATH];
 		OldDirectory = new wchar_t[MAX_PATH];
 		UId = new wchar_t[sizeof(GUID) * 2 + 4]();
+		if(!InitLib(TRUE)) {
+			throw bad_alloc();
+		}
 		GetFreeLetter (DosDevice);
 		if(UniqueId(&UId) == ERROR_OUTOFMEMORY) {
 			throw bad_alloc();
@@ -473,6 +481,7 @@ int
 		delete[] OldDirectory;
 		delete[] DosDevice;
 		ThreadFinished();
+		InitLib(FALSE);
 		return ERROR_SUCCESS;
 	}
 	catch (bad_alloc) {
@@ -481,6 +490,7 @@ int
 		if(NULL != OldDirectory) {delete[] OldDirectory;}
 		if(NULL != DosDevice) {delete[] DosDevice;}
 		ThreadFinished();
+		InitLib(FALSE);
 		return ERROR_OUTOFMEMORY;
 	}
 }

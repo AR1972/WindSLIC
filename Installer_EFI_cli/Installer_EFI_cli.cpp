@@ -37,6 +37,11 @@ int _tmain(int argc, _TCHAR* argv[])
 	wchar_t* FilePath = NULL;
 	wchar_t* BootEntryPath = NULL;
 	//
+	if (!InitLib(TRUE)) {
+		wprintf_s(L"lib initialization error\n");
+		return 1;
+	}
+	//
 	if (!isEfi()) {
 		wprintf_s(L"system is not EFI\n");
 		return 2;
@@ -208,15 +213,17 @@ exit:
 		delete[] Directory;
 		delete[] OldDirectory;
 		delete[] DosDevice;
+		InitLib(FALSE);
 		return ret;
 	}
-	catch (bad_alloc) { 
+	catch (bad_alloc) {
 		if(NULL != UId) {delete[] UId;}
 		if(NULL != Directory) {delete[] Directory;}
 		if(NULL != OldDirectory) {delete[] OldDirectory;}
 		if(NULL != DosDevice) {delete[] DosDevice;}
 		if(NULL != FilePath) {delete[] FilePath;}
 		if(NULL != BootEntryPath) {delete[] BootEntryPath;}
+		InitLib(FALSE);
 		return ERROR_OUTOFMEMORY;
 	}
 }

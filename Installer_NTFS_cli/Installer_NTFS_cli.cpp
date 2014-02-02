@@ -1,14 +1,49 @@
 #include "stdafx.h"
 #include <new>
 using namespace std;
+//
+typedef NTSTATUS (WINAPI *QuerySystemInformation)(
+	SYSTEM_INFORMATION_CLASS SystemInformationClass,
+	PVOID SystemInformation,
+	ULONG SystemInformationLength,
+	PULONG ReturnLength);
 
+static QuerySystemInformation pNtQuerySystemInformation = NULL;
+static HMODULE hNtdll = NULL;
 wchar_t* eloadresource = L"load resource failed";
+
+BOOL
+	InitLib(BOOL Load)
+{
+	BOOL RetVal = FALSE;
+	if(Load) {
+		if (!hNtdll) {
+			hNtdll = LoadLibrary(L"ntdll.dll");
+		}
+		if(hNtdll) {
+			if (!pNtQuerySystemInformation) {
+				pNtQuerySystemInformation = (QuerySystemInformation) GetProcAddress(hNtdll, "NtQuerySystemInformation");
+			}
+		}
+		RetVal = (pNtQuerySystemInformation != NULL);
+	} else {
+		if (hNtdll) {
+			pNtQuerySystemInformation = NULL;
+			RetVal = FreeLibrary(hNtdll);
+			hNtdll = NULL;
+		}
+	}
+	return RetVal;
+}
 
 BOOL isEfi(VOID)
 {
-	UINT ret = FALSE;
+	BOOL ret = FALSE;
+	if (!InitLib(TRUE)) {
+		return ret;
+	}
 	DWORD buffer[5] = {};
-	if (NtQuerySystemInformation((SYSTEM_INFORMATION_CLASS)90, buffer, sizeof(buffer), NULL) == 0 && buffer[4] == 2) {
+	if (pNtQuerySystemInformation((SYSTEM_INFORMATION_CLASS)90, buffer, sizeof(buffer), NULL) == 0 && buffer[4] == 2) {
 		ret = TRUE;
 	}
 	return ret;
@@ -38,6 +73,10 @@ int _tmain(int argc, _TCHAR* argv[])
 	UCHAR* Resource = NULL;
 	BOOL Uninstall = FALSE;
 	//
+	if (!InitLib(TRUE)) {
+		wprintf_s(L"lib initialization error\n");
+		return 1;
+	}
 	if(isEfi()){
 		wprintf_s(L"unsupported EFI system");
 		return 2;
@@ -92,7 +131,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		VolumeName = new wchar_t[MAX_PATH];
 		DriveName = new wchar_t[MAX_PATH];
 		Buffer = new UCHAR[BufferLength]();
-		NtQuerySystemInformation((SYSTEM_INFORMATION_CLASS) 98, Buffer, BufferLength, &BufferLength);
+		pNtQuerySystemInformation((SYSTEM_INFORMATION_CLASS) 98, Buffer, BufferLength, &BufferLength);
 		wsprintf(VolumeName, L"\\\\.\\%s", (wchar_t*)(Buffer + 24));
 		hDevice = CreateFile(VolumeName, GENERIC_READ, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL, OPEN_EXISTING, NULL, NULL);
 		delete[] Buffer;

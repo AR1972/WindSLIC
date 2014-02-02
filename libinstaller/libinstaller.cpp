@@ -11,6 +11,30 @@
 using namespace std;
 //
 BOOL
+	InitLib(BOOL Load)
+{
+	BOOL RetVal = FALSE;
+	if(Load) {
+		if (!hNtdll) {
+			hNtdll = LoadLibrary(L"ntdll.dll");
+		}
+		if(hNtdll) {
+			if (!pNtQuerySystemInformation) {
+				pNtQuerySystemInformation = (QuerySystemInformation) GetProcAddress(hNtdll, "NtQuerySystemInformation");
+			}
+		}
+		RetVal = (pNtQuerySystemInformation != NULL);
+	} else {
+		if (hNtdll) {
+			pNtQuerySystemInformation = NULL;
+			RetVal = FreeLibrary(hNtdll);
+			hNtdll = NULL;
+		}
+	}
+	return RetVal;
+}
+//
+BOOL
 	Test(VOID)
 {
 	UINT InBootOrderLength = 1;
@@ -42,13 +66,17 @@ int
 	ULONG BufferLength = 128;
 	//
 	try {
+		if (!InitLib(TRUE)) {
+			*Id = NULL;
+			return ERROR_INVALID_HANDLE;
+		}
 		Buffer = new UCHAR[BufferLength];
 		UniqueId = new wchar_t[sizeof(GUID) * sizeof(wchar_t) + 4]();
 		DriveName = new wchar_t[MAX_PATH];
 		VolumeName = new wchar_t[MAX_PATH];
 		memset(Buffer, 0, BufferLength);
 		// get system volume.
-		NtQuerySystemInformation((SYSTEM_INFORMATION_CLASS) 98, Buffer, BufferLength, &BufferLength);
+		pNtQuerySystemInformation((SYSTEM_INFORMATION_CLASS) 98, Buffer, BufferLength, &BufferLength);
 		wsprintf(VolumeName, L"\\\\.\\%s\0", (wchar_t*)(Buffer + 24));
 		hDevice = CreateFile(VolumeName, GENERIC_READ, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL, OPEN_EXISTING, NULL, NULL);
 		delete[] Buffer;
@@ -419,6 +447,9 @@ int
 		return ERROR_INVALID_PARAMETER;
 	}
 	try {
+		if (!InitLib(TRUE)) {
+			return ERROR_INVALID_HANDLE;
+		}
 		VolumeName = new wchar_t[MAX_PATH];
 		DriveName = new wchar_t[MAX_PATH];
 		// first part of boot entry.
@@ -443,7 +474,7 @@ int
 		BufferLength = 128;
 		Buffer = new UCHAR[BufferLength];
 		memset(Buffer, 0, BufferLength);
-		NtQuerySystemInformation((SYSTEM_INFORMATION_CLASS) 98, Buffer, BufferLength, &BufferLength);
+		pNtQuerySystemInformation((SYSTEM_INFORMATION_CLASS) 98, Buffer, BufferLength, &BufferLength);
 		wsprintf(VolumeName, L"\\\\.\\%s\0", (wchar_t*)(Buffer + 24));
 		hDevice = CreateFile(VolumeName, GENERIC_READ, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL, OPEN_EXISTING, NULL, NULL);
 		delete[] Buffer;
@@ -587,12 +618,15 @@ BOOL
 BOOL 
 	isEfi(VOID)
 {
-	UINT ret = FALSE;
-	DWORD buffer[5] = {};
-	if (NtQuerySystemInformation((SYSTEM_INFORMATION_CLASS)90, buffer, sizeof(buffer), NULL) == 0 && buffer[4] == 2) {
-		ret = TRUE;
+	BOOL RetVal = FALSE;
+	if (!InitLib(TRUE)) {
+		return RetVal;
 	}
-	return ret;
+	DWORD buffer[5] = {};
+	if (pNtQuerySystemInformation((SYSTEM_INFORMATION_CLASS)90, buffer, sizeof(buffer), NULL) == 0 && buffer[4] == 2) {
+		RetVal = TRUE;
+	}
+	return RetVal;
 }
 //
 BOOL
@@ -619,10 +653,13 @@ BOOL
 BOOL
 	MountEsp(wchar_t* DosDevice)
 {
-	BOOL RetVal = 0;
+	BOOL RetVal = FALSE;
+	if (!InitLib(TRUE)) {
+		return RetVal;
+	}
 	UCHAR* Buffer = new UCHAR[128];
 	memset(Buffer, 0, 128);
-	if(NtQuerySystemInformation((SYSTEM_INFORMATION_CLASS)98, Buffer, 128, NULL) == 0) {
+	if(pNtQuerySystemInformation((SYSTEM_INFORMATION_CLASS)98, Buffer, 128, NULL) == 0) {
 		UINT strlen = wcslen((wchar_t *)(Buffer + 8)) + 1;
 		wchar_t* pTargetPath = new wchar_t[strlen];
 		wcscpy_s(pTargetPath, strlen, (wchar_t *)(Buffer + 8));
@@ -636,10 +673,13 @@ BOOL
 BOOL
 	UnmountEsp(wchar_t* DosDevice)
 {
-	BOOL RetVal = 0;
+	BOOL RetVal = FALSE;
+	if (!InitLib(TRUE)) {
+		return RetVal;
+	}
 	UCHAR* Buffer = new UCHAR[128];
 	memset(Buffer, 0, 128);
-	if(NtQuerySystemInformation((SYSTEM_INFORMATION_CLASS)98, Buffer, 128, NULL) == 0) {
+	if(pNtQuerySystemInformation((SYSTEM_INFORMATION_CLASS)98, Buffer, 128, NULL) == 0) {
 		UINT strlen = wcslen((wchar_t *)(Buffer + 8)) + 1;
 		wchar_t* pTargetPath = new wchar_t[strlen];
 		wcscpy_s(pTargetPath, strlen, (wchar_t *)(Buffer + 8));
