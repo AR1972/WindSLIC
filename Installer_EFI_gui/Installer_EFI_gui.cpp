@@ -393,14 +393,14 @@ int
 			delete[] SlicBuffer;
 		}
 		else {
-			EfiDeleteDescription(Description, sizeof(Description) - 1);
-			EfiDeleteDescription(Injector, sizeof(Injector) - 1);
+			EfiDeleteDescription(Description);
+			EfiDeleteDescription(Injector);
 			EfiBootmgrAddFirst();
 			goto exit;
 		}
 		// remove any WindSLIC boot entries.
-		EfiDeleteDescription(Description, sizeof(Description) - 1);
-		EfiDeleteDescription(Injector, sizeof(Injector) - 1);
+		EfiDeleteDescription(Description);
+		EfiDeleteDescription(Injector);
 		EfiBootmgrAddFirst();
 		// add WindSLIC boot entry.
 		EntryId = EfiFreeBootEntry();
@@ -478,8 +478,8 @@ int
 			Sleep(100);
 		}
 		AcquirePrivilage();
-		EfiDeleteDescription(Description, sizeof(Description) - 1);
-		EfiDeleteDescription(Injector, sizeof(Injector) - 1);
+		EfiDeleteDescription(Description);
+		EfiDeleteDescription(Injector);
 		EfiBootmgrAddFirst();
 		UnmountEsp(DosDevice);
 		delete[] UId;

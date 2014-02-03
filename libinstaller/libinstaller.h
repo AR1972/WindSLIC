@@ -74,7 +74,7 @@ UINT
 	EfiDeleteWindSLICEntries(VOID);
 //
 UINT
-	EfiDeleteDescription(wchar_t* Description, int DescriptionLenght);
+	EfiDeleteDescription(wchar_t* Description);
 //
 BOOL
 	EfiBootOrderDelete(ULONG EntryId);

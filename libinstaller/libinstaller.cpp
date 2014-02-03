@@ -380,7 +380,7 @@ UINT
 }
 //
 UINT
-	EfiDeleteDescription(wchar_t* Description, int DescriptionLenght)
+	EfiDeleteDescription(wchar_t* Description)
 {
 	ULONG BufferLength = 16;
 	UCHAR* Buffer = new UCHAR[BufferLength];
@@ -392,6 +392,7 @@ UINT
 	InBootOrder[0] = 0;
 	UINT RetVal = 0;
 	UINT RetLen = 0;
+	int DescriptionLenght = wcslen(Description);
 	//
 	while ((RetLen = GetFirmwareEnvironmentVariable(TEXT("BootOrder"), EfiGuid, InBootOrder, InBootOrderLength * sizeof(USHORT))) == 0) {
 		if (GetLastError() == ERROR_ENVVAR_NOT_FOUND) {
