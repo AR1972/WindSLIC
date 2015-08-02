@@ -7,6 +7,7 @@
 //
 #include "stdafx.h"
 #include "libinstaller.h"
+#include <VersionHelpers.h>
 #include <new>
 using namespace std;
 //
@@ -676,12 +677,26 @@ BOOL
 	isEfi(VOID)
 {
 	BOOL RetVal = FALSE;
-	if (!InitLib(TRUE)) {
-		return RetVal;
+	DWORD dwPInfo = NULL;
+	DWORD dwVersion = NULL;
+	DWORD dwMajorVersion = NULL;
+	DWORD dwMinorVersion = NULL;
+	dwVersion = GetVersion();
+	dwMajorVersion = (DWORD)(LOBYTE(LOWORD(dwVersion)));
+	dwMinorVersion = (DWORD)(HIBYTE(LOWORD(dwVersion)));
+	if (dwMajorVersion == 6 || dwMinorVersion == 1) {
+		if (!InitLib(TRUE)) {
+			return RetVal;
+		}
+		DWORD buffer[5] = {};
+		if (pNtQuerySystemInformation((SYSTEM_INFORMATION_CLASS)90, buffer, sizeof(buffer), NULL) == 0 && buffer[4] == 2) {
+			RetVal = TRUE;
+		}
 	}
-	DWORD buffer[5] = {};
-	if (pNtQuerySystemInformation((SYSTEM_INFORMATION_CLASS)90, buffer, sizeof(buffer), NULL) == 0 && buffer[4] == 2) {
-		RetVal = TRUE;
+	else if (IsWindows8OrGreater()) {
+		FIRMWARE_TYPE FirmwareType;
+		GetFirmwareType(&FirmwareType);
+		RetVal = FirmwareType == FirmwareTypeUefi;
 	}
 	return RetVal;
 }

@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include <VersionHelpers.h>
 #include <new>
 using namespace std;
 //
@@ -36,17 +37,32 @@ BOOL
 	return RetVal;
 }
 
-BOOL isEfi(VOID)
+BOOL
+isEfi(VOID)
 {
-	BOOL ret = FALSE;
-	if (!InitLib(TRUE)) {
-		return ret;
+	BOOL RetVal = FALSE;
+	DWORD dwPInfo = NULL;
+	DWORD dwVersion = NULL;
+	DWORD dwMajorVersion = NULL;
+	DWORD dwMinorVersion = NULL;
+	dwVersion = GetVersion();
+	dwMajorVersion = (DWORD)(LOBYTE(LOWORD(dwVersion)));
+	dwMinorVersion = (DWORD)(HIBYTE(LOWORD(dwVersion)));
+	if (dwMajorVersion == 6 || dwMinorVersion == 1) {
+		if (!InitLib(TRUE)) {
+			return RetVal;
+		}
+		DWORD buffer[5] = {};
+		if (pNtQuerySystemInformation((SYSTEM_INFORMATION_CLASS)90, buffer, sizeof(buffer), NULL) == 0 && buffer[4] == 2) {
+			RetVal = TRUE;
+		}
 	}
-	DWORD buffer[5] = {};
-	if (pNtQuerySystemInformation((SYSTEM_INFORMATION_CLASS)90, buffer, sizeof(buffer), NULL) == 0 && buffer[4] == 2) {
-		ret = TRUE;
+	else if (IsWindows8OrGreater()) {
+		FIRMWARE_TYPE FirmwareType;
+		GetFirmwareType(&FirmwareType);
+		RetVal = FirmwareType == FirmwareTypeUefi;
 	}
-	return ret;
+	return RetVal;
 }
 
 int _tmain(int argc, _TCHAR* argv[])
