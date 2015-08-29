@@ -542,7 +542,7 @@ BOOLEAN
 	UINT32 Count = 0;
 	UINT32 i = 0;
 	DESC_HEADER_t *Table = 0;
-	*FoundTable = 0;
+	*FoundTable;
 	//
 	Count = (Rsdt->Header.Length - sizeof (DESC_HEADER_t)) >> 2;
 	for (i = 0; i < Count; i++) {
@@ -569,7 +569,7 @@ BOOLEAN
 	UINT32 Count = 0;
 	UINT32 i = 0;
 	DESC_HEADER_t* Table = 0;
-	*FoundTable = 0;
+	*FoundTable;
 
 	Count = (Xsdt->Header.Length - sizeof (DESC_HEADER_t)) >> 3;
 	for (i = 0; i < Count; i++) {
@@ -928,6 +928,7 @@ EFI_STATUS
 	RSDTtbl_t *RSDT_Table = 0;
 	XSDTtbl_t *XSDT_Table = 0;
 	INT32 i = 0;
+	BOOLEAN Existing_SLIC = FALSE;
 #if BETA == 1
 	DESC_HEADER_t *Low_RSDT_Table = 0;
 	DESC_HEADER_t *Low_XSDT_Table = 0;
@@ -937,6 +938,7 @@ EFI_STATUS
 #if MSDM_INJECT == 1
 	VOID *MSDM_Table_Buffer = 0;
 	MSDMtbl_t *MSDM_Table = 0;
+	BOOLEAN Existing_MSDM = FALSE;
 #endif
 	/* SLP 1.0 */
 #if SLP10_INJECT == 1
@@ -1049,24 +1051,6 @@ EFI_STATUS
 	/* initialize allocated memory to 0 */
 
 	ZeroMem(ACPI_Table_Buffer, Allocate_Length);
-
-#if MSDM_INJECT == 1
-
-	/* allocate memory for MSDM */
-
-	Status = BS->AllocatePool(EfiACPIReclaimMemory, (sizeof(MSDM) + 4), &MSDM_Table_Buffer);
-	if (EFI_ERROR (Status)) {
-		Print(L"ERROR: allocate memory: %r\r\n", Status);
-		BS->FreePool(MSDM_Table_Buffer);
-		ContinueKey(0);
-		return Status;
-	}
-
-	/* initialize allocated memory to 0 */
-
-	ZeroMem(MSDM_Table_Buffer, (sizeof(MSDM) + 4));
-
-#endif
 
 #if VERBOSE > 0
 	Print(L"0x%X bytes of memory allocated @ 0x%X\n", Allocate_Length, ACPI_Table_Buffer);
@@ -1196,25 +1180,37 @@ EFI_STATUS
 	/* calculate destination pointer for revision 1 tables */
 
 	if (RSDP_Revision == 0) {
+		if (ScanTableInRsdt(New_RSDT_Table, 'CILS', &SLIC_Table)) {
+			Print(L"Found existing SLIC at 0x%X\r\n", SLIC_Table);
+			Existing_SLIC = TRUE;
+		}
+		else {
 
 #if MSDM_INJECT == 1
-		SLIC_Table = (SLICtbl_t *) ((UINT64) New_RSDT_Table + New_RSDT_Table->Header.Length + 8 + 4);
+			SLIC_Table = (SLICtbl_t *)((UINT64)New_RSDT_Table + New_RSDT_Table->Header.Length + 8 + 4);
 #else
-		SLIC_Table = (SLICtbl_t *) ((UINT64) New_RSDT_Table + New_RSDT_Table->Header.Length + 8);
+			SLIC_Table = (SLICtbl_t *) ((UINT64) New_RSDT_Table + New_RSDT_Table->Header.Length + 8);
 #endif
 
+		}
 	}
 
 	/* calculate destination pointer for revision 2 tables */
 
 	else if (RSDP_Revision == 2) {
+		if (ScanTableInXsdt(New_XSDT_Table, 'CILS', &SLIC_Table)) {
+			Print(L"Found existing SLIC at 0x%X\r\n", SLIC_Table);
+			Existing_SLIC = TRUE;
+		}
+		else {
 
 #if MSDM_INJECT == 1
-		SLIC_Table = (SLICtbl_t *) ((UINT64) New_XSDT_Table + New_XSDT_Table->Header.Length + 12 + 8);
+			SLIC_Table = (SLICtbl_t *)((UINT64)New_XSDT_Table + New_XSDT_Table->Header.Length + 12 + 8);
 #else
-		SLIC_Table = (SLICtbl_t *) ((UINT64) New_XSDT_Table + New_XSDT_Table->Header.Length + 12);
+			SLIC_Table = (SLICtbl_t *) ((UINT64) New_XSDT_Table + New_XSDT_Table->Header.Length + 12);
 #endif
 
+		}
 	}
 
 	/* copy SLIC */
@@ -1260,6 +1256,28 @@ EFI_STATUS
 
 #if MSDM_INJECT == 1
 
+	if (RSDP_Revision == 0) {
+		if (ScanTableInRsdt(New_RSDT_Table, 'MDSM', &MSDM_Table_Buffer)) {
+			Print(L"Found existing MDSM at 0x%X\r\n", MSDM_Table_Buffer);
+			Existing_MSDM = TRUE;
+		}
+	}
+	else if (RSDP_Revision == 2) {
+		if (ScanTableInXsdt(New_XSDT_Table, 'MDSM', &MSDM_Table_Buffer)) {
+			Print(L"Found existing MSDM at 0x%X\r\n", MSDM_Table_Buffer);
+			Existing_MSDM = TRUE;
+		}
+	}
+	if (!Existing_MSDM) {
+		Status = BS->AllocatePool(EfiACPIReclaimMemory, (sizeof(MSDM) + 4), &MSDM_Table_Buffer);
+		if (EFI_ERROR(Status)) {
+			Print(L"ERROR: allocate memory: %r\r\n", Status);
+			BS->FreePool(MSDM_Table_Buffer);
+			ContinueKey(0);
+			return Status;
+		}
+		ZeroMem(MSDM_Table_Buffer, (sizeof(MSDM) + 4));
+	}
 	CopyMem(MSDM_Table_Buffer, MSDM, sizeof(MSDM));
 	MSDM_Table = (MSDMtbl_t *) MSDM_Table_Buffer;
 	CopyMem(MSDM_Table->Header.OEMId, SLIC_Table->Header.OEMId, 6);
@@ -1320,23 +1338,29 @@ EFI_STATUS
 
 	/* add SLIC pointer to RSDT */
 
+	if (!Existing_SLIC) {
+
 #if VERBOSE > 0
 	Print(L"Adding SLIC pointer to RSDT\r\n");
 #endif
 
-	New_RSDT_Table->Entry[(New_RSDT_Table->Header.Length - sizeof(DESC_HEADER_t)) >> 2] = (UINT32)SLIC_Table;
-	New_RSDT_Table->Header.Length += sizeof(UINT32);
+		New_RSDT_Table->Entry[(New_RSDT_Table->Header.Length - sizeof(DESC_HEADER_t)) >> 2] = (UINT32)SLIC_Table;
+		New_RSDT_Table->Header.Length += sizeof(UINT32);
+	}
 
 	/* add MSDM pointer to RSDT */
 
 #if MSDM_INJECT == 1
 
+	if (!Existing_MSDM) {
+
 #if VERBOSE > 0
 	Print(L"Adding MSDM pointer to RSDT\r\n");
 #endif
 
-	New_RSDT_Table->Entry[(New_RSDT_Table->Header.Length - sizeof(DESC_HEADER_t)) >> 2] = (UINT32)MSDM_Table;
-	New_RSDT_Table->Header.Length += sizeof(UINT32);
+		New_RSDT_Table->Entry[(New_RSDT_Table->Header.Length - sizeof(DESC_HEADER_t)) >> 2] = (UINT32)MSDM_Table;
+		New_RSDT_Table->Header.Length += sizeof(UINT32);
+	}
 
 #endif
 
@@ -1364,24 +1388,29 @@ EFI_STATUS
 	/* add SLIC pointer to XSDT */
 
 	if (RSDP_Revision == 2) {
+		if (!Existing_SLIC) {
 
 #if VERBOSE > 0
 		Print(L"Adding SLIC pointer to XSDT\r\n");
 #endif
 
-		New_XSDT_Table->Entry[(New_XSDT_Table->Header.Length - sizeof(DESC_HEADER_t)) >> 3] = (UINT64)SLIC_Table;
-		New_XSDT_Table->Header.Length += sizeof(UINT64);
+			New_XSDT_Table->Entry[(New_XSDT_Table->Header.Length - sizeof(DESC_HEADER_t)) >> 3] = (UINT64)SLIC_Table;
+			New_XSDT_Table->Header.Length += sizeof(UINT64);
+		}
 
 		/* add MSDM pointer to XSDT */
 
 #if MSDM_INJECT == 1
 
+		if (!Existing_MSDM) {
+
 #if VERBOSE > 0
 		Print(L"Adding MSDM pointer to XSDT\r\n");
 #endif
 
-		New_XSDT_Table->Entry[(New_XSDT_Table->Header.Length - sizeof(DESC_HEADER_t)) >> 3] = (UINT64)MSDM_Table;
-		New_XSDT_Table->Header.Length += sizeof(UINT64);
+			New_XSDT_Table->Entry[(New_XSDT_Table->Header.Length - sizeof(DESC_HEADER_t)) >> 3] = (UINT64)MSDM_Table;
+			New_XSDT_Table->Header.Length += sizeof(UINT64);
+		}
 
 #endif
 
