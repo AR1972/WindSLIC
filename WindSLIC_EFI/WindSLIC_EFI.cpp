@@ -936,7 +936,6 @@ EFI_STATUS
 	VOID *Next_Table_Buffer = 0;
 #endif
 #if MSDM_INJECT == 1
-	VOID *MSDM_Table_Buffer = 0;
 	MSDMtbl_t *MSDM_Table = 0;
 	BOOLEAN Existing_MSDM = FALSE;
 #endif
@@ -1180,7 +1179,7 @@ EFI_STATUS
 	/* calculate destination pointer for revision 1 tables */
 
 	if (RSDP_Revision == 0) {
-		if (ScanTableInRsdt(New_RSDT_Table, 'CILS', &SLIC_Table)) {
+		if (ScanTableInRsdt(New_RSDT_Table, ACPI_SLIC_SIG, &SLIC_Table)) {
 			Print(L"Found existing SLIC at 0x%X\r\n", SLIC_Table);
 			Existing_SLIC = TRUE;
 		}
@@ -1198,7 +1197,7 @@ EFI_STATUS
 	/* calculate destination pointer for revision 2 tables */
 
 	else if (RSDP_Revision == 2) {
-		if (ScanTableInXsdt(New_XSDT_Table, 'CILS', &SLIC_Table)) {
+		if (ScanTableInXsdt(New_XSDT_Table, ACPI_SLIC_SIG, &SLIC_Table)) {
 			Print(L"Found existing SLIC at 0x%X\r\n", SLIC_Table);
 			Existing_SLIC = TRUE;
 		}
@@ -1257,38 +1256,37 @@ EFI_STATUS
 #if MSDM_INJECT == 1
 
 	if (RSDP_Revision == 0) {
-		if (ScanTableInRsdt(New_RSDT_Table, 'MDSM', &MSDM_Table_Buffer)) {
-			Print(L"Found existing MDSM at 0x%X\r\n", MSDM_Table_Buffer);
+		if (ScanTableInRsdt(New_RSDT_Table, ACPI_MSDM_SIG, &MSDM_Table)) {
+			Print(L"Found existing MDSM at 0x%X\r\n", MSDM_Table);
 			Existing_MSDM = TRUE;
 		}
 	}
 	else if (RSDP_Revision == 2) {
-		if (ScanTableInXsdt(New_XSDT_Table, 'MDSM', &MSDM_Table_Buffer)) {
-			Print(L"Found existing MSDM at 0x%X\r\n", MSDM_Table_Buffer);
+		if (ScanTableInXsdt(New_XSDT_Table, ACPI_MSDM_SIG, &MSDM_Table)) {
+			Print(L"Found existing MSDM at 0x%X\r\n", MSDM_Table);
 			Existing_MSDM = TRUE;
 		}
 	}
 	if (!Existing_MSDM) {
-		Status = BS->AllocatePool(EfiACPIReclaimMemory, (sizeof(MSDM) + 4), &MSDM_Table_Buffer);
+		Status = BS->AllocatePool(EfiACPIReclaimMemory, (sizeof(MSDM) + 4), &MSDM_Table);
 		if (EFI_ERROR(Status)) {
 			Print(L"ERROR: allocate memory: %r\r\n", Status);
-			BS->FreePool(MSDM_Table_Buffer);
+			BS->FreePool(MSDM_Table);
 			ContinueKey(0);
 			return Status;
 		}
-		ZeroMem(MSDM_Table_Buffer, (sizeof(MSDM) + 4));
+		ZeroMem(MSDM_Table, (sizeof(MSDM) + 4));
 	}
-	CopyMem(MSDM_Table_Buffer, MSDM, sizeof(MSDM));
-	MSDM_Table = (MSDMtbl_t *) MSDM_Table_Buffer;
+	CopyMem(MSDM_Table, MSDM, sizeof(MSDM));
 	CopyMem(MSDM_Table->Header.OEMId, SLIC_Table->Header.OEMId, 6);
 	CopyMem(MSDM_Table->Header.OEMTableId, SLIC_Table->Header.OEMTableId, 8);
 	MSDM_Table->Header.Checksum = 0;
 	MSDM_Table->Header.Checksum = ComputeChecksum((UINT8 *) MSDM_Table, MSDM_Table->Header.Length);
 
 #if VERBOSE > 0
-	Print(L"MSDM copied to 0x%X\r\n", MSDM_Table_Buffer);
+	Print(L"MSDM copied to 0x%X\r\n", MSDM_Table);
 #if VERBOSE == 2
-	DumpHex(0, 0, sizeof(MSDM), MSDM_Table_Buffer);
+	DumpHex(0, 0, sizeof(MSDM), MSDM_Table);
 	Print(L"Press ENTER to continue");
 	ContinueKey(30);
 	ST->ConOut->ClearScreen(ST->ConOut);
