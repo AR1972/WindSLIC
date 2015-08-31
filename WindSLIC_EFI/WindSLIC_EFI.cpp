@@ -1180,7 +1180,9 @@ EFI_STATUS
 
 	if (RSDP_Revision == 0) {
 		if (ScanTableInRsdt(New_RSDT_Table, ACPI_SLIC_SIG, &SLIC_Table)) {
+#if VERBOSE > 0
 			Print(L"Found existing SLIC at 0x%X\r\n", SLIC_Table);
+#endif
 			Existing_SLIC = TRUE;
 		}
 		else {
@@ -1198,7 +1200,9 @@ EFI_STATUS
 
 	else if (RSDP_Revision == 2) {
 		if (ScanTableInXsdt(New_XSDT_Table, ACPI_SLIC_SIG, &SLIC_Table)) {
+#if VERBOSE > 0
 			Print(L"Found existing SLIC at 0x%X\r\n", SLIC_Table);
+#endif
 			Existing_SLIC = TRUE;
 		}
 		else {
@@ -1257,13 +1261,17 @@ EFI_STATUS
 
 	if (RSDP_Revision == 0) {
 		if (ScanTableInRsdt(New_RSDT_Table, ACPI_MSDM_SIG, &MSDM_Table)) {
+#if VERBOSE > 0
 			Print(L"Found existing MDSM at 0x%X\r\n", MSDM_Table);
+#endif
 			Existing_MSDM = TRUE;
 		}
 	}
 	else if (RSDP_Revision == 2) {
 		if (ScanTableInXsdt(New_XSDT_Table, ACPI_MSDM_SIG, &MSDM_Table)) {
+#if VERBOSE > 0
 			Print(L"Found existing MSDM at 0x%X\r\n", MSDM_Table);
+#endif
 			Existing_MSDM = TRUE;
 		}
 	}
