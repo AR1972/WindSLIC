@@ -17,6 +17,9 @@ typedef NTSTATUS (WINAPI *QuerySystemInformation)(
 	ULONG SystemInformationLength,
 	PULONG ReturnLength);
 //
+typedef BOOL(WINAPI *nGetFirmwareType)(
+	PFIRMWARE_TYPE FirmwareType);
+//
 typedef struct _EFI_BOOT_ENTRY
 {
 	ULONG Attributes;
@@ -54,6 +57,8 @@ static wchar_t EfiGuid[] = L"{8BE4DF61-93CA-11d2-AA0D-00E098032B8C}";
 static UCHAR ESP[] = {0x28, 0x73, 0x2A, 0xC1, 0x1F, 0xF8, 0xD2, 0x11, 0xBA, 0x4B, 0x00, 0xA0, 0xC9, 0x3E, 0xC9, 0x3B};
 static QuerySystemInformation pNtQuerySystemInformation = NULL;
 static HMODULE hNtdll = NULL;
+static nGetFirmwareType pGetFirmwareType = NULL;
+static HMODULE hKernel32 = NULL;
 //
 int 
 	EfiCreateBootEntry(UCHAR* pBootEntry, ULONG* pBootEntryLength, wchar_t* Description, wchar_t* FilePath);
