@@ -695,7 +695,15 @@ BOOL
 	}
 	else if (IsWindows8OrGreater()) {
 		FIRMWARE_TYPE FirmwareType;
-		GetFirmwareType(&FirmwareType);
+		if (!hKernel32) {
+			hKernel32 = LoadLibrary(L"Kernel32.dll");
+		}
+		if (hKernel32) {
+			if (!pGetFirmwareType) {
+				pGetFirmwareType = (nGetFirmwareType)GetProcAddress(hKernel32, "GetFirmwareType");
+			}
+		}
+		pGetFirmwareType(&FirmwareType);
 		RetVal = FirmwareType == FirmwareTypeUefi;
 	}
 	return RetVal;
