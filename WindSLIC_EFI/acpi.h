@@ -22,6 +22,7 @@
 #define ACPI_SLIC_SIG		0x43494c53				// "SLIC"
 #define ACPI_XSDT_SIG		0x54445358				// "XSDT"
 #define ACPI_BOOT_SIG		0x544f4f42				// "BOOT"
+#define ACPI_MSDM_SIG		0x4d44534d				// "MSDM"
 //
 #define EBDA_BASE_ADDRESS 0x40E
 //
