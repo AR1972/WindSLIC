@@ -470,7 +470,7 @@ ULONG
 		InBootOrder = new USHORT[InBootOrderLength];
 	}
 	for (UINT i = 0; i < InBootOrderLength; i++) {
-		++index[InBootOrder[i]];
+		++index[i];
 	}
 	for (UINT i = 0; i <= 98; i++) {
 		if (!index[i]) {
