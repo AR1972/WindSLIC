@@ -457,7 +457,7 @@ ULONG
 	UINT InBootOrderLength = 1;
 	USHORT* InBootOrder = new USHORT[InBootOrderLength];
 	InBootOrder[0] = 0;
-	UINT index[99] = {};
+	UINT* index = new UINT[USHRT_MAX]();
 	UINT RetLen = 0;
 	//
 	while ((RetLen = GetFirmwareEnvironmentVariable(TEXT("BootOrder"), EfiGuid, InBootOrder, (InBootOrderLength * sizeof(USHORT)))) == 0) {
@@ -472,13 +472,15 @@ ULONG
 	for (UINT i = 0; i < InBootOrderLength; i++) {
 		++index[InBootOrder[i]];
 	}
-	for (UINT i = 0; i <= 98; i++) {
+	for (UINT i = 0; i <= USHRT_MAX - 1; i++) {
 		if (!index[i]) {
 			delete[] InBootOrder;
+			delete[] index;
 			return i;
 		}
 	}
 	delete[] InBootOrder;
+	delete[] index;
 	return -1;
 }
 //
