@@ -25,12 +25,29 @@ BOOL
 			}
 		}
 		RetVal = (pNtQuerySystemInformation != NULL);
+		if (IsWindows8OrGreater()) {
+			if (!hKernel32) {
+				hKernel32 = LoadLibrary(L"Kernel32.dll");
+			}
+			if (hKernel32) {
+				if (!pGetFirmwareType) {
+					pGetFirmwareType = (nGetFirmwareType)GetProcAddress(hKernel32, "GetFirmwareType");
+				}
+			}
+			RetVal = (pNtQuerySystemInformation != NULL) & (pGetFirmwareType != NULL);
+		}
 	} else {
 		if (hNtdll) {
 			pNtQuerySystemInformation = NULL;
-			RetVal = FreeLibrary(hNtdll);
+			FreeLibrary(hNtdll);
 			hNtdll = NULL;
 		}
+		if (hKernel32) {
+			pGetFirmwareType = NULL;
+			FreeLibrary(hKernel32);
+			hKernel32 = NULL;
+		}
+		RetVal = (pNtQuerySystemInformation == NULL) & (pGetFirmwareType == NULL);
 	}
 	return RetVal;
 }
@@ -44,9 +61,10 @@ BOOL
 	UINT RetLen = 0;
 	//
 	RetLen = GetFirmwareEnvironmentVariable(TEXT("BootOrder"), EfiGuid, InBootOrder, (InBootOrderLength * sizeof(USHORT)));
-	if (GetLastError() == ERROR_INVALID_PARAMETER) {
+	if (GetLastError() == ERROR_INVALID_FUNCTION) {
 		RetVal = FALSE;
 	}
+	delete[] InBootOrder;
 	return RetVal;
 }
 //
@@ -72,7 +90,8 @@ int
 			return ERROR_INVALID_HANDLE;
 		}
 		Buffer = new UCHAR[BufferLength];
-		UniqueId = new wchar_t[sizeof(GUID) * sizeof(wchar_t) + 4]();
+		UniqueId = new wchar_t[sizeof(GUID) * sizeof(wchar_t) + 4];
+		memset(UniqueId, 0, sizeof(GUID) * sizeof(wchar_t) + 4);
 		DriveName = new wchar_t[MAX_PATH];
 		VolumeName = new wchar_t[MAX_PATH];
 		memset(Buffer, 0, BufferLength);
@@ -457,7 +476,8 @@ ULONG
 	UINT InBootOrderLength = 1;
 	USHORT* InBootOrder = new USHORT[InBootOrderLength];
 	InBootOrder[0] = 0;
-	UINT* index = new UINT[USHRT_MAX]();
+	UINT* index = new UINT[USHRT_MAX];
+	memset(index, 0, USHRT_MAX * sizeof(UINT));
 	UINT RetLen = 0;
 	//
 	while ((RetLen = GetFirmwareEnvironmentVariable(TEXT("BootOrder"), EfiGuid, InBootOrder, (InBootOrderLength * sizeof(USHORT)))) == 0) {
@@ -686,10 +706,10 @@ BOOL
 	dwVersion = GetVersion();
 	dwMajorVersion = (DWORD)(LOBYTE(LOWORD(dwVersion)));
 	dwMinorVersion = (DWORD)(HIBYTE(LOWORD(dwVersion)));
+	if (!InitLib(TRUE)) {
+		return RetVal;
+	}
 	if (dwMajorVersion == 6 || dwMinorVersion == 1) {
-		if (!InitLib(TRUE)) {
-			return RetVal;
-		}
 		DWORD buffer[5] = {};
 		if (pNtQuerySystemInformation((SYSTEM_INFORMATION_CLASS)90, buffer, sizeof(buffer), NULL) == 0 && buffer[4] == 2) {
 			RetVal = TRUE;
@@ -697,14 +717,6 @@ BOOL
 	}
 	else if (IsWindows8OrGreater()) {
 		FIRMWARE_TYPE FirmwareType;
-		if (!hKernel32) {
-			hKernel32 = LoadLibrary(L"Kernel32.dll");
-		}
-		if (hKernel32) {
-			if (!pGetFirmwareType) {
-				pGetFirmwareType = (nGetFirmwareType)GetProcAddress(hKernel32, "GetFirmwareType");
-			}
-		}
 		pGetFirmwareType(&FirmwareType);
 		RetVal = FirmwareType == FirmwareTypeUefi;
 	}

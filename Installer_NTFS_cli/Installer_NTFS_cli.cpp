@@ -33,12 +33,29 @@ BOOL
 			}
 		}
 		RetVal = (pNtQuerySystemInformation != NULL);
+		if (IsWindows8OrGreater()) {
+			if (!hKernel32) {
+				hKernel32 = LoadLibrary(L"Kernel32.dll");
+			}
+			if (hKernel32) {
+				if (!pGetFirmwareType) {
+					pGetFirmwareType = (nGetFirmwareType)GetProcAddress(hKernel32, "GetFirmwareType");
+				}
+			}
+			RetVal = (pNtQuerySystemInformation != NULL) & (pGetFirmwareType != NULL);
+		}
 	} else {
 		if (hNtdll) {
 			pNtQuerySystemInformation = NULL;
-			RetVal = FreeLibrary(hNtdll);
+			FreeLibrary(hNtdll);
 			hNtdll = NULL;
 		}
+		if (hKernel32) {
+			pGetFirmwareType = NULL;
+			FreeLibrary(hKernel32);
+			hKernel32 = NULL;
+		}
+		RetVal = (pNtQuerySystemInformation == NULL) & (pGetFirmwareType == NULL);
 	}
 	return RetVal;
 }
@@ -54,10 +71,10 @@ isEfi(VOID)
 	dwVersion = GetVersion();
 	dwMajorVersion = (DWORD)(LOBYTE(LOWORD(dwVersion)));
 	dwMinorVersion = (DWORD)(HIBYTE(LOWORD(dwVersion)));
+	if (!InitLib(TRUE)) {
+		return RetVal;
+	}
 	if (dwMajorVersion == 6 || dwMinorVersion == 1) {
-		if (!InitLib(TRUE)) {
-			return RetVal;
-		}
 		DWORD buffer[5] = {};
 		if (pNtQuerySystemInformation((SYSTEM_INFORMATION_CLASS)90, buffer, sizeof(buffer), NULL) == 0 && buffer[4] == 2) {
 			RetVal = TRUE;
@@ -65,14 +82,6 @@ isEfi(VOID)
 	}
 	else if (IsWindows8OrGreater()) {
 		FIRMWARE_TYPE FirmwareType;
-		if (!hKernel32) {
-			hKernel32 = LoadLibrary(L"Kernel32.dll");
-		}
-		if (hKernel32) {
-			if (!pGetFirmwareType) {
-				pGetFirmwareType = (nGetFirmwareType)GetProcAddress(hKernel32, "GetFirmwareType");
-			}
-		}
 		pGetFirmwareType(&FirmwareType);
 		RetVal = FirmwareType == FirmwareTypeUefi;
 	}
@@ -160,13 +169,15 @@ int _tmain(int argc, _TCHAR* argv[])
 		// get system volume.
 		VolumeName = new wchar_t[MAX_PATH];
 		DriveName = new wchar_t[MAX_PATH];
-		Buffer = new UCHAR[BufferLength]();
+		Buffer = new UCHAR[BufferLength];
+		memset(Buffer, 0, BufferLength * sizeof(UCHAR));
 		pNtQuerySystemInformation((SYSTEM_INFORMATION_CLASS) 98, Buffer, BufferLength, &BufferLength);
 		wsprintf(VolumeName, L"\\\\.\\%s", (wchar_t*)(Buffer + 24));
 		hDevice = CreateFile(VolumeName, GENERIC_READ, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL, OPEN_EXISTING, NULL, NULL);
 		delete[] Buffer;
 		// get partition data.
-		Buffer = new UCHAR[BootSectSize]();
+		Buffer = new UCHAR[BootSectSize];
+		memset(Buffer, 0, BootSectSize * sizeof(UCHAR));
 		Status = ReadFile(hDevice, Buffer, BootSectSize, &BytesRead, NULL);
 		// check filesystem type.
 		if(memcmp(Buffer + 3, "NTFS    \0", 9) != 0) {
