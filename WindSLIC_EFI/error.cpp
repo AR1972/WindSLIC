@@ -30,6 +30,7 @@ struct {
     EFI_ICMP_ERROR,             L"ICMP Error",
     EFI_TFTP_ERROR,             L"TFTP Error",
     EFI_PROTOCOL_ERROR,         L"Protocol Error",
+	EFI_NULL_PTR,				L"Null pointer",
 
     // warnings
     EFI_WARN_UNKNOWN_GLYPH,      L"Warning Unknown Glyph",

@@ -57,6 +57,7 @@ Revision History
 #define EFI_ICMP_ERROR                  EFIERR(22)
 #define EFI_TFTP_ERROR                  EFIERR(23)
 #define EFI_PROTOCOL_ERROR              EFIERR(24)
+#define	EFI_NULL_PTR					EFIERR(25)
 
 #define EFI_WARN_UNKNOWN_GLYPH          EFIWARN(1)
 #define EFI_WARN_DELETE_FAILURE         EFIWARN(2)

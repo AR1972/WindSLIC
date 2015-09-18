@@ -142,8 +142,9 @@ EFI_STATUS
 
 	if(Inject) {
 		Status = Injector();
-		if(EFI_ERROR(Status)) {
+		if(EFI_ERROR (Status)) {
 			/* stop & show user the error */
+			Print(L"Press ENTER to continue\r\n");
 			ContinueKey(0);
 		}
 	}
@@ -542,7 +543,6 @@ BOOLEAN
 	UINT32 Count = 0;
 	UINT32 i = 0;
 	DESC_HEADER_t *Table = 0;
-	*FoundTable;
 	//
 	Count = (Rsdt->Header.Length - sizeof (DESC_HEADER_t)) >> 2;
 	for (i = 0; i < Count; i++) {
@@ -569,7 +569,6 @@ BOOLEAN
 	UINT32 Count = 0;
 	UINT32 i = 0;
 	DESC_HEADER_t* Table = 0;
-	*FoundTable;
 
 	Count = (Xsdt->Header.Length - sizeof (DESC_HEADER_t)) >> 3;
 	for (i = 0; i < Count; i++) {
@@ -983,6 +982,11 @@ EFI_STATUS
 
 		}
 	}
+
+	if (RSDT_Table == NULL) {
+		Status = EFI_NULL_PTR;
+	}
+
 	if (EFI_ERROR (Status)) {
 
 #if VERBOSE > 0
