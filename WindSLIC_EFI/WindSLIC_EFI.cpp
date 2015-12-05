@@ -102,18 +102,22 @@ EFI_STATUS
 	// set console mode                                                        //
 	//=========================================================================//
 
+#if VERBOSE > 0
 	for (i = 0; i < ST->ConOut->Mode->MaxMode; i++) {
 		if ((ST->ConOut->QueryMode(ST->ConOut, (UINTN)i, 0, 0) == EFI_SUCCESS) &&
 			(i != ST->ConOut->Mode->Mode)) {
 				ST->ConOut->SetMode(ST->ConOut, (UINTN)i);
 		}
 	}
+#endif
 
 	//=========================================================================//
 	// disable blinking cursor                                                 //
 	//=========================================================================//
 
+#if VERBOSE > 0
 	ST->ConOut->EnableCursor(ST->ConOut, FALSE);
+#endif
 
 	//=========================================================================//
 	// detect F1 key                                                           //
