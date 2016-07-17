@@ -269,7 +269,7 @@ BOOL
 		InBootOrder = new USHORT[InBootOrderLength];
 	}
 	OutBootOrder = new USHORT[99];
-	memset(OutBootOrder, 0, 99);
+	memset(OutBootOrder, 0, 99 * sizeof(USHORT));
 	if (InBootOrderLength) {
 		for (UINT i = 0; i <= InBootOrderLength-1; i++) {
 			if (InBootOrder[i] == EntryId) {
