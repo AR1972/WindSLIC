@@ -229,8 +229,8 @@ BOOL
 		delete[] InBootOrder;
 		InBootOrder = new USHORT[InBootOrderLength];
 	}
-	OutBootOrder = new USHORT[99];
-	memset(OutBootOrder, 0, 99 * sizeof(USHORT));
+	OutBootOrder = new USHORT[USHRT_MAX];
+	memset(OutBootOrder, 0, USHRT_MAX * sizeof(USHORT));
 	OutBootOrder[0] = (USHORT)EntryId;
 	if (InBootOrderLength) {
 		for (UINT i = 0; i <= InBootOrderLength-1; i++) {
@@ -268,8 +268,8 @@ BOOL
 		delete[] InBootOrder;
 		InBootOrder = new USHORT[InBootOrderLength];
 	}
-	OutBootOrder = new USHORT[99];
-	memset(OutBootOrder, 0, 99 * sizeof(USHORT));
+	OutBootOrder = new USHORT[USHRT_MAX];
+	memset(OutBootOrder, 0, USHRT_MAX * sizeof(USHORT));
 	if (InBootOrderLength) {
 		for (UINT i = 0; i <= InBootOrderLength-1; i++) {
 			if (InBootOrder[i] == EntryId) {
