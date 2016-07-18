@@ -210,7 +210,7 @@ UINT
 }
 //
 BOOL
-	EfiBootOrderAddFirst(ULONG EntryId)
+	EfiBootOrderAddFirst(USHORT EntryId)
 {
 	UINT InBootOrderLength = 1;
 	UINT OutBootOrderLength = 1;
@@ -231,7 +231,7 @@ BOOL
 	}
 	OutBootOrder = new USHORT[USHRT_MAX];
 	memset(OutBootOrder, 0, USHRT_MAX * sizeof(USHORT));
-	OutBootOrder[0] = (USHORT)EntryId;
+	OutBootOrder[0] = EntryId;
 	if (InBootOrderLength) {
 		for (UINT i = 0; i <= InBootOrderLength-1; i++) {
 			if (InBootOrder[i] == EntryId) {
@@ -250,7 +250,7 @@ BOOL
 }
 //
 BOOL
-	EfiBootOrderDelete(ULONG EntryId)
+	EfiBootOrderDelete(USHORT EntryId)
 {
 	UINT InBootOrderLength = 1;
 	UINT OutBootOrderLength = 0;
@@ -317,7 +317,7 @@ BOOL
 			delete[] Buffer;
 			Buffer = new UCHAR[BufferLength];
 			memset(Buffer, 0, BufferLength);
-			wsprintf(EntryName, L"Boot%04d", InBootOrder[i]);
+			wsprintf(EntryName, L"Boot%04X", InBootOrder[i]);
 			EntryId = InBootOrder[i];
 			while ((RetLen = GetFirmwareEnvironmentVariable(EntryName, EfiGuid, Buffer, BufferLength)) == 0) {
 				if (GetLastError() == ERROR_ENVVAR_NOT_FOUND) {
@@ -372,7 +372,7 @@ UINT
 			delete[] Buffer;
 			Buffer = new UCHAR[BufferLength];
 			memset(Buffer, 0, BufferLength);
-			wsprintf(EntryName, L"Boot%04d", InBootOrder[i]);;
+			wsprintf(EntryName, L"Boot%04X", InBootOrder[i]);
 			EntryId = InBootOrder[i];
 			while ((RetLen = GetFirmwareEnvironmentVariable(EntryName, EfiGuid, Buffer, BufferLength)) == 0) {
 				if (GetLastError() == ERROR_ENVVAR_NOT_FOUND) {
@@ -429,7 +429,7 @@ UINT
 			delete[] Buffer;
 			Buffer = new UCHAR[BufferLength];
 			memset(Buffer, 0, BufferLength);
-			wsprintf(EntryName, L"Boot%04d", InBootOrder[i]);;
+			wsprintf(EntryName, L"Boot%04X", InBootOrder[i]);;
 			EntryId = InBootOrder[i];
 			while ((RetLen = GetFirmwareEnvironmentVariable(EntryName, EfiGuid, Buffer, BufferLength)) == 0) {
 				if (GetLastError() == ERROR_ENVVAR_NOT_FOUND) {
@@ -457,10 +457,10 @@ UINT
 }
 //
 BOOL
-	EfiDeleteBootEntry (ULONG EntryId)
+	EfiDeleteBootEntry (USHORT EntryId)
 {
 	wchar_t EntryName[24] = {};
-	wsprintf(EntryName, L"Boot%04d", EntryId);
+	wsprintf(EntryName, L"Boot%04X", EntryId);
 	return SetFirmwareEnvironmentVariable(EntryName, EfiGuid, NULL, NULL);
 }
 //
@@ -470,7 +470,7 @@ BOOL
 	return SetFirmwareEnvironmentVariable(EntryName, EfiGuid, NULL, NULL);
 }
 //
-ULONG
+USHORT
 	EfiFreeBootEntry (VOID)
 {
 	UINT InBootOrderLength = 1;

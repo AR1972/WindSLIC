@@ -237,7 +237,7 @@ int
 	HGLOBAL hgResource;
 	size_t WindSlicSize;
 	size_t SlicSize;
-	ULONG EntryId;
+	USHORT EntryId;
 	CHAR* SLPString;
 	UINT32 SLPLength = 0;
 	UINT32 ScanBegin = 0;
@@ -407,7 +407,7 @@ int
 		if (EntryId == -1) {
 		}
 		else {
-			wsprintf(EntryName, L"Boot%04d", EntryId);
+			wsprintf(EntryName, L"Boot%04X", EntryId);
 			if(EfiCreateBootEntry(NULL, &BootEntryLength, Description, BootEntryPath) == ERROR_OUTOFMEMORY) {
 				throw bad_alloc();
 			}

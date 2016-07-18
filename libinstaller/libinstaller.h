@@ -66,11 +66,11 @@ int
 BOOL
 	AcquirePrivilage(VOID);
 //
-ULONG
+USHORT
 	EfiFreeBootEntry (VOID);
 //
 BOOL
-	EfiDeleteBootEntry (ULONG EntryId);
+	EfiDeleteBootEntry (USHORT EntryId);
 //
 BOOL
 	EfiDeleteBootEntry (wchar_t* EntryName);
@@ -82,10 +82,10 @@ UINT
 	EfiDeleteDescription(wchar_t* Description);
 //
 BOOL
-	EfiBootOrderDelete(ULONG EntryId);
+	EfiBootOrderDelete(USHORT EntryId);
 //
 BOOL
-	EfiBootOrderAddFirst(ULONG EntryId);
+	EfiBootOrderAddFirst(USHORT EntryId);
 //
 BOOL
 	EfiBootmgrAddFirst(VOID);

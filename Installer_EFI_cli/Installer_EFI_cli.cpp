@@ -23,7 +23,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	HGLOBAL hgResource;
 	size_t WindSlicSize;
 	size_t SlicSize;
-	ULONG EntryId;
+	USHORT EntryId;
 	UCHAR* WindSlicBuffer;
 	UCHAR* SlicBuffer;
 	UCHAR* BootEntry;
@@ -191,7 +191,7 @@ int _tmain(int argc, _TCHAR* argv[])
 			wprintf_s(L"find free boot entry failed");
 		}
 		else {
-			wsprintf(EntryName, L"Boot%04d", EntryId);
+			wsprintf(EntryName, L"Boot%04X", EntryId);
 			if(EfiCreateBootEntry(NULL, &BootEntryLength, Description, BootEntryPath) == ERROR_OUTOFMEMORY) {
 				throw bad_alloc();
 			}
