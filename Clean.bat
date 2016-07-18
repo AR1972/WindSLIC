@@ -1,4 +1,7 @@
-call "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat"
+IF EXIST "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" (call "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat"
+) ELSE (
+IF EXIST "%VS120COMNTOOLS%..\..\VC\vcvarsall.bat" (call "%VS120COMNTOOLS%..\..\VC\vcvarsall.bat")
+)
 devenv /nologo WindSLIC.sln /Clean
 if %ERRORLEVEL% neq 0 (
 call :color c "Clean failed"

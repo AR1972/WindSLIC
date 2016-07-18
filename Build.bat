@@ -8,7 +8,10 @@ set PLATFORM=%2
 set PROJECT=%3
 @if "%4" neq "" (set ACTION=%4) else (set ACTION=Build)
 if %PLATFORM% == x64 (set MACHINE=x64) else (set MACHINE=x86)
-call "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" %MACHINE%
+IF EXIST "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" (call "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" %MACHINE%
+) ELSE (
+IF EXIST "%VS120COMNTOOLS%..\..\VC\vcvarsall.bat" (call "%VS120COMNTOOLS%..\..\VC\vcvarsall.bat" %MACHINE%)
+)
 devenv /nologo WindSLIC.sln /Project %PROJECT% /%ACTION% "%CONFIG%|%PLATFORM%"
 @if %ERRORLEVEL% neq 0 (
 call :color c "%3 %~1 %PLATFORM% %ACTION% failed"
