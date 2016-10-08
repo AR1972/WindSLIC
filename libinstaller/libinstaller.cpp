@@ -134,7 +134,7 @@ int
 					for (UINT j = 0; j < sizeof(GUID); j++) {
 						PartitionId[j] ^= PartitionType[j];
 					}
-					for (UINT j = 0; j < sizeof(GUID); j++) {
+					for (UINT j = 0; j < sizeof(GUID)/2; j++) {
 						wsprintf(tmp, L"%02x", PartitionId[j]);
 						wcscat_s(*Id, sizeof(GUID) * 2 + 4, tmp);
 					}
