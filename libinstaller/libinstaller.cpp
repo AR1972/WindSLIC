@@ -490,7 +490,7 @@ USHORT
 		InBootOrder = new USHORT[InBootOrderLength];
 	}
 	for (UINT i = 0; i < InBootOrderLength; i++) {
-		++index[InBootOrder[i]];
+		++index[i];
 	}
 	for (UINT i = 0; i <= USHRT_MAX - 1; i++) {
 		if (!index[i]) {
